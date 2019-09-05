@@ -1,3 +1,5 @@
+*.~lock.*
+
 ### Elm ###
 elm-stuff
 repl-temp-*

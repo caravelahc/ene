@@ -3,6 +3,8 @@
 A webpage to serve approval/failure rate and notes of UFSC's classes from CSV files.
 
 ## Setup
+Install [Git LFS](https://github.com/git-lfs/git-lfs#getting-started).
+
 Install elm by using the [official guide](https://guide.elm-lang.org/install.html).
 
 Compile Elm using
