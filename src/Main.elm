@@ -2,7 +2,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Decoder exposing (Course, availableCourses)
-import Html exposing (Html, div)
+import Html exposing (Html, div, text)
 
 
 type alias Model =
@@ -41,4 +41,4 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [] []
+    div [] [ text "Work in progress \\(•◡•)/" ]
