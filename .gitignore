@@ -1,4 +1,5 @@
 *.~lock.*
+*.code-workspace
 
 ### Elm ###
 elm-stuff

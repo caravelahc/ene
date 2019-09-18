@@ -1,4 +1,4 @@
-module Decoder exposing (Course, availableCourses, decodeCsv)
+module Decoder exposing (Class, Course, availableCourses, decodeCsv)
 
 import Csv exposing (Csv)
 import Csv.Decode exposing (Decoder, andMap, decode, field, map, maybe, next)

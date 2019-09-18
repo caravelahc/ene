@@ -1,6 +1,7 @@
-module Table exposing (simpleData, simpleDataHeader)
+module Table exposing (classToSimpleDataElement, simpleData, simpleDataHeader)
 
-import Html exposing (Html, div, table, text, th, tr)
+import Decoder exposing (Class)
+import Html exposing (Html, div, table, td, text, th, tr)
 
 
 simpleData : List String
@@ -16,10 +17,24 @@ simpleData =
     ]
 
 
-simpleDataHeader : List (Html msg)
+simpleDataHeader : Html msg
 simpleDataHeader =
-    List.map
-        (\h ->
-            th [] [ text h ]
+    tr []
+        (List.map
+            (\h -> th [] [ text h ])
+            simpleData
         )
-        simpleData
+
+
+classToSimpleDataElement : Class -> Html msg
+classToSimpleDataElement class =
+    tr []
+        [ td [] [ text class.centerName ]
+        , td [] [ text class.departmentName ]
+        , td [] [ text class.classCourse ]
+        , td [] [ text class.courseCode ]
+        , td [] [ text class.courseName ]
+        , td [] [ text class.approved ]
+        , td [] [ text class.disapprovedSP ]
+        , td [] [ text class.disapprovedIP ]
+        ]

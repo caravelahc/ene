@@ -1,9 +1,9 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Decoder exposing (Course, availableCourses)
+import Decoder exposing (Course)
 import Html exposing (Html, div, table, text)
-import Table exposing (simpleDataHeader)
+import Table exposing (classToSimpleDataElement, simpleDataHeader)
 
 
 type alias Model =
@@ -42,8 +42,14 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
+    let
+        mainTable =
+            table [] []
+
+        -- (List.map classToSimpleDataElement decodeCsv)
+    in
     div []
-        [ table [] simpleDataHeader
+        [ div [] [ simpleDataHeader, mainTable ]
         , div []
             [ text
                 "Work in progress \\(•◡•)/"
