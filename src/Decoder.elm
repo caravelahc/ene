@@ -1,7 +1,7 @@
 module Decoder exposing (Class, Course, availableCourses, decodeCsv)
 
-import Csv exposing (Csv)
-import Csv.Decode exposing (Decoder, andMap, decode, field, map, maybe, next)
+import Csv
+import Csv.Decode exposing (Decoder, andMap, field, map)
 
 
 type alias Course =
@@ -14,15 +14,11 @@ availableCourses =
     ]
 
 
-type Center
-    = CTC
 
-
-type Department
-    = INE
-
-
-
+-- type Center
+--     = CTC
+-- type Department
+--     = INE
 -- SP - Sufficient Presence
 -- IP - Insufficient Presence
 

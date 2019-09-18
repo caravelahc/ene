@@ -1,7 +1,7 @@
 module Table exposing (classToSimpleDataElement, simpleData, simpleDataHeader)
 
 import Decoder exposing (Class)
-import Html exposing (Html, div, table, td, text, th, tr)
+import Html exposing (Html, td, text, th, tr)
 
 
 simpleData : List String

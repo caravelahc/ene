@@ -3,11 +3,12 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Decoder exposing (Course)
 import Html exposing (Html, div, table, text)
-import Table exposing (classToSimpleDataElement, simpleDataHeader)
+import Table exposing (simpleDataHeader)
 
 
 type alias Model =
     { selectedCourse : Maybe Course
+    , selectedSemester : Maybe String
     }
 
 
@@ -28,6 +29,7 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { selectedCourse = Nothing
+      , selectedSemester = Nothing
       }
     , Cmd.none
     )
@@ -52,6 +54,8 @@ view model =
         [ div [] [ simpleDataHeader, mainTable ]
         , div []
             [ text
-                "Work in progress \\(•◡•)/"
+                ("Work in progress \\(•◡•)/"
+                    ++ Maybe.withDefault "" model.selectedSemester
+                )
             ]
         ]
