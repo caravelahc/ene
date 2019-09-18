@@ -24,11 +24,12 @@ deploy:
   dependencies:
     - build
   script:
-    - git checkout gh-pages
     - rm -f *.md
+    - git remote add github ${REMOTE_URL}
     - git config user.name ${DEPLOY_USERNAME}
     - git config user.email ${DEPLOY_EMAIL}
-    - git remote add github ${REMOTE_URL}
+    - git remote update
+    - git checkout github/gh-pages
     - git add -A
     - 'git commit -m "[ci-skip] Deploy GitHub Pages ${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}" -m "Deploy from GitLab pipeline ${CI_COMMIT_SHA}"'
     - git push github gh-pages --force
