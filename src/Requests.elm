@@ -10,7 +10,7 @@ type CsvResponse
 
 endpointUrl : List String -> List QueryParameter -> String
 endpointUrl endpoint =
-    crossOrigin "https://caravelahc.github.io/ene/data" endpoint
+    crossOrigin "https://caravelahc.github.io/ene/csv" endpoint
 
 
 fetchCourseSemesterCSV : String -> String -> Cmd CsvResponse
