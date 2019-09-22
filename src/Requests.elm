@@ -1,4 +1,9 @@
-module Requests exposing (CsvResponse(..), endpointUrl, fetchCourseSemesterCSV)
+module Requests exposing
+    ( CsvResponse(..)
+    , endpointUrl
+    , fetchCourseSemesterCSV
+    , stripCSVParameterString
+    )
 
 import Http
 import Url.Builder exposing (QueryParameter, crossOrigin)
@@ -19,3 +24,16 @@ fetchCourseSemesterCSV courseCode semester =
         { url = endpointUrl [ courseCode, semester ++ ".csv" ] []
         , expect = Http.expectString GotCSV
         }
+
+
+stripCSVParameterString : String -> String
+stripCSVParameterString str =
+    -- Strip the first line of parameter data that is present in every CSV file (105 char length)
+    let
+        removeString =
+            String.slice 0 105 str
+
+        removedFirstLine =
+            String.replace removeString "" str
+    in
+    removedFirstLine

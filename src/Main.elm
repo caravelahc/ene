@@ -1,16 +1,18 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Decoder exposing (Course)
-import Html exposing (Html, div, table, text)
-import Requests exposing (CsvResponse(..))
-import Table exposing (simpleDataHeader)
+import Decoder exposing (Class, Course, decodeCsv)
+import Html exposing (Html, div, h2, span, table, text)
+import Requests exposing (CsvResponse(..), stripCSVParameterString)
+import Table exposing (classToSimpleDataElement, placeholderClass, simpleDataHeader)
 
 
 type alias Model =
-    { selectedCourse : Maybe Course
+    { error : Maybe String
+    , selectedCourse : Maybe Course
     , selectedSemester : Maybe String
     , csvString : Maybe String
+    , classList : Maybe (List Class)
     }
 
 
@@ -32,11 +34,14 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { selectedCourse = Nothing
+    ( { error = Nothing
+      , selectedCourse = Nothing
       , selectedSemester = Nothing
       , csvString = Nothing
+      , classList = Nothing
       }
-    , Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" "20091")
+      -- Remove hardcoded fetch csv
+    , Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" "20182")
     )
 
 
@@ -46,13 +51,32 @@ update msg model =
         None ->
             ( model, Cmd.none )
 
-        SelectSemester semester ->
-            ( model, Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" semester) )
+        SelectSemester _ ->
+            -- Implement select semester
+            ( model, Cmd.none )
 
         CSV response ->
             case response of
-                GotCSV r ->
-                    ( { model | csvString = Result.toMaybe r }
+                GotCSV result ->
+                    let
+                        filteredResult =
+                            case result of
+                                Ok value ->
+                                    stripCSVParameterString value
+
+                                Err err ->
+                                    Debug.toString err
+
+                        classesResult =
+                            decodeCsv filteredResult
+
+                        classes =
+                            Result.toMaybe classesResult
+                    in
+                    ( { model
+                        | csvString = Just filteredResult
+                        , classList = classes
+                      }
                     , Cmd.none
                     )
 
@@ -60,17 +84,31 @@ update msg model =
 view : Model -> Html Msg
 view model =
     let
-        mainTable =
-            table [] []
+        classesRows =
+            List.map classToSimpleDataElement
+                (Maybe.withDefault [ placeholderClass ] model.classList)
 
-        -- (List.map classToSimpleDataElement decodeCsv)
+        statusText =
+            if List.isEmpty (Maybe.withDefault [] model.classList) then
+                "Fetching CSV data..."
+
+            else
+                ""
+
+        mainTable =
+            table [] (simpleDataHeader :: classesRows)
+
+        errorHeader =
+            case model.error of
+                Just err ->
+                    h2 [] [ text err ]
+
+                Nothing ->
+                    span [] []
     in
     div []
-        [ div [] [ simpleDataHeader, mainTable ]
-        , div []
-            [ text
-                ("Work in progress \\(•◡•)/"
-                    ++ Maybe.withDefault "" model.csvString
-                )
-            ]
+        [ errorHeader
+        , div [] [ text "Work in progress \\(•◡•)/" ]
+        , div [] [ text statusText ]
+        , div [] [ mainTable ]
         ]

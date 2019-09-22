@@ -1,4 +1,9 @@
-module Table exposing (classToSimpleDataElement, simpleData, simpleDataHeader)
+module Table exposing
+    ( classToSimpleDataElement
+    , placeholderClass
+    , simpleData
+    , simpleDataHeader
+    )
 
 import Decoder exposing (Class)
 import Html exposing (Html, td, text, th, tr)
@@ -38,3 +43,38 @@ classToSimpleDataElement class =
         , td [] [ text class.disapprovedSP ]
         , td [] [ text class.disapprovedIP ]
         ]
+
+
+placeholderClass : Class
+placeholderClass =
+    let
+        p =
+            "---"
+    in
+    { semester = p
+    , center = p
+    , centerName = p
+    , department = p
+    , departmentName = p
+    , classCourse = p
+    , courseCode = p
+    , courseName = p
+    , credits = p
+    , notes100 = p
+    , notes95and90 = p
+    , notes85and80 = p
+    , notes75and70 = p
+    , notes65and60 = p
+    , notes55and50 = p
+    , notes45and40 = p
+    , notes35and30 = p
+    , notes25and20 = p
+    , notes15and05 = p
+    , notes0SP = p
+    , notes0IP = p
+    , studentsWithGrades = p
+    , mentionOne = p
+    , approved = p
+    , disapprovedSP = p
+    , disapprovedIP = p
+    }

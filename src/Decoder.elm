@@ -1,4 +1,9 @@
-module Decoder exposing (Class, Course, availableCourses, decodeCsv)
+module Decoder exposing
+    ( Class
+    , Course
+    , availableCourses
+    , decodeCsv
+    )
 
 import Csv
 import Csv.Decode exposing (Decoder, andMap, field, map)
@@ -19,11 +24,11 @@ availableCourses =
 --     = CTC
 -- type Department
 --     = INE
--- SP - Sufficient Presence
--- IP - Insufficient Presence
 
 
 type alias Class =
+    -- SP - Sufficient Presence
+    -- IP - Insufficient Presence
     { semester : String
     , center : String
     , centerName : String
@@ -55,6 +60,7 @@ type alias Class =
 
 classDecoder : Decoder (Class -> a) a
 classDecoder =
+    -- Exact mapping of CSV headers (including wrong spaces)
     map Class
         (field "semestre" Ok
             |> andMap (field "centroDoDepartamento" Ok)
@@ -64,7 +70,7 @@ classDecoder =
             |> andMap (field "turmaDoCurso" Ok)
             |> andMap (field "disciplina" Ok)
             |> andMap (field "nomeDaDisciplina" Ok)
-            |> andMap (field "HorasAula" Ok)
+            |> andMap (field "HorasAulas" Ok)
             |> andMap (field "qtdeNota10,0" Ok)
             |> andMap (field "qtdeNota9,5_9,0" Ok)
             |> andMap (field "qtdeNota8,5_8,0" Ok)
@@ -77,9 +83,9 @@ classDecoder =
             |> andMap (field "qtdeNota1,5_0,5" Ok)
             |> andMap (field "nota0_FS" Ok)
             |> andMap (field "nota0_FI" Ok)
-            |> andMap (field "qtdeDeAlunosDaTurmaComNotas" Ok)
+            |> andMap (field " qtdeDeAlunosDaTurmaComNotas" Ok)
             |> andMap (field "mencaoI" Ok)
-            |> andMap (field "Aprovados" Ok)
+            |> andMap (field " Aprovados" Ok)
             |> andMap (field "Reprovados_FS" Ok)
             |> andMap (field "Reprovados_FI" Ok)
         )
@@ -87,4 +93,4 @@ classDecoder =
 
 decodeCsv : String -> Result Csv.Decode.Errors (List Class)
 decodeCsv data =
-    Csv.parse data |> Csv.Decode.decodeCsv classDecoder
+    Csv.parseWith ";" data |> Csv.Decode.decodeCsv classDecoder
