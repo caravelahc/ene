@@ -20,3 +20,6 @@ Variable|Description
 REMOTE_URL|Used to set the remote to be pushed inside the CI, must use this format: `https://<deploy-bot-name>:<deploy-account-access-token>@github.com/caravelahc/ene.git`
 DEPLOY_USERNAME|GitHub username for the deploy commit.
 DEPLOY_EMAIL|GitHub account email for the deploy commit
+
+### Thanks
+[@tarcisioe](https://github.com/tarcisioe/) for the `convert.sh` script
