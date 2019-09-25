@@ -4,7 +4,7 @@ import Browser
 import Decoder exposing (Class, Course, decodeCsv)
 import Html exposing (Html, div, h2, span, table, text)
 import Requests exposing (CsvResponse(..), stripCSVParameterString)
-import Table exposing (classToSimpleDataElement, placeholderClass, simpleDataHeader)
+import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
 
 
 type alias Model =
@@ -85,7 +85,7 @@ view : Model -> Html Msg
 view model =
     let
         classesRows =
-            List.map classToSimpleDataElement
+            List.map classToCompactDataElement
                 (Maybe.withDefault [ placeholderClass ] model.classList)
 
         statusText =
@@ -96,7 +96,7 @@ view model =
                 ""
 
         mainTable =
-            table [] (simpleDataHeader :: classesRows)
+            table [] (compactDataHeader :: classesRows)
 
         errorHeader =
             case model.error of

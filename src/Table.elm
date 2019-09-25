@@ -1,44 +1,46 @@
 module Table exposing
-    ( classToSimpleDataElement
+    ( classToCompactDataElement
+    , compactData
+    , compactDataHeader
     , placeholderClass
-    , simpleData
-    , simpleDataHeader
     )
 
 import Decoder exposing (Class)
 import Html exposing (Html, td, text, th, tr)
 
 
-simpleData : List String
-simpleData =
+compactData : List String
+compactData =
     [ "Centro"
     , "Departamento"
     , "Curso"
     , "Disciplina"
     , "Nome Disciplina"
+    , "Alunos Total"
     , "Aprovados"
     , "Reprovados FS"
     , "Reprovados FI"
     ]
 
 
-simpleDataHeader : Html msg
-simpleDataHeader =
+compactDataHeader : Html msg
+compactDataHeader =
     tr []
         (List.map
             (\h -> th [] [ text h ])
-            simpleData
+            compactData
         )
 
 
-classToSimpleDataElement : Class -> Html msg
-classToSimpleDataElement class =
+classToCompactDataElement : Class -> Html msg
+classToCompactDataElement class =
     tr []
-        [ td [] [ text class.centerName ]
-        , td [] [ text class.departmentName ]
+        [ td [] [ text class.center ]
+        , td [] [ text class.department ]
         , td [] [ text class.classCourse ]
         , td [] [ text class.courseCode ]
         , td [] [ text class.courseName ]
+        , td [] [ text class.studentsWithGrades ]
         , td [] [ text class.approved ]
         , td [] [ text class.disapprovedSP ]
         , td [] [ text class.disapprovedIP ]
