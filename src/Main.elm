@@ -41,7 +41,7 @@ init =
       , classList = Nothing
       }
       -- Remove hardcoded fetch csv
-    , Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" "20182")
+    , Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" "20191")
     )
 
 
