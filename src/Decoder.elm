@@ -1,61 +1,8 @@
-module Decoder exposing
-    ( Class
-    , Course
-    , availableCourses
-    , decodeCsv
-    )
+module Decoder exposing (decodeCsv)
 
 import Csv
 import Csv.Decode exposing (Decoder, andMap, field, map)
-
-
-type alias Course =
-    ( String, String )
-
-
-availableCourses : List Course
-availableCourses =
-    [ ( "208", "CIÊNCIAS DA COMPUTAÇÃO" )
-    ]
-
-
-
--- type Center
---     = CTC
--- type Department
---     = INE
-
-
-type alias Class =
-    -- SP - Sufficient Presence
-    -- IP - Insufficient Presence
-    { semester : String
-    , center : String
-    , centerName : String
-    , department : String
-    , departmentName : String
-    , classCourse : String
-    , courseCode : String
-    , courseName : String
-    , credits : String
-    , notes100 : String
-    , notes95and90 : String
-    , notes85and80 : String
-    , notes75and70 : String
-    , notes65and60 : String
-    , notes55and50 : String
-    , notes45and40 : String
-    , notes35and30 : String
-    , notes25and20 : String
-    , notes15and05 : String
-    , notes0SP : String
-    , notes0IP : String
-    , studentsWithGrades : String
-    , mentionOne : String
-    , approved : String
-    , disapprovedSP : String
-    , disapprovedIP : String
-    }
+import Data exposing (Class)
 
 
 classDecoder : Decoder (Class -> a) a

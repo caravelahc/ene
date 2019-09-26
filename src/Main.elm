@@ -1,10 +1,14 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Decoder exposing (Class, Course, decodeCsv)
-import Html exposing (Html, div, h2, span, table, text)
+import Data exposing (Class, Course, availableCourses, courseToString)
+import Decoder exposing (decodeCsv)
+import Html exposing (Html, div, h2, option, select, span, table, text)
+import Html.Attributes exposing (id)
+import Html.Events exposing (onClick)
 import Requests exposing (CsvResponse(..), stripCSVParameterString)
 import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
+import Utils exposing (semesterList)
 
 
 type alias Model =
@@ -18,7 +22,8 @@ type alias Model =
 
 type Msg
     = None
-    | SelectSemester String
+    | SelectCourse
+    | SelectSemester
     | CSV CsvResponse
 
 
@@ -51,8 +56,12 @@ update msg model =
         None ->
             ( model, Cmd.none )
 
-        SelectSemester _ ->
+        SelectSemester ->
             -- Implement select semester
+            ( model, Cmd.none )
+
+        SelectCourse ->
+            -- Implement select course
             ( model, Cmd.none )
 
         CSV response ->
@@ -105,24 +114,39 @@ view model =
             else
                 ""
 
-        mainTable =
-            table [] (compactDataHeader :: classesRows)
-
         errorHeader =
             if List.isEmpty (Maybe.withDefault [] model.classList) then
                 h2 [] [ text (errorStr model.csvString) ]
 
             else
                 case model.error of
-                    Just err ->
+                    Just _ ->
                         h2 [] [ text (errorStr model.error) ]
 
                     Nothing ->
                         span [] []
+
+        availableCoursesSelect =
+            let
+                courseNames =
+                    List.map courseToString availableCourses
+            in
+            select [ onClick SelectCourse ] (List.map (\course -> option [] [ text course ]) courseNames)
+
+        availableSemestersSelect =
+            let
+                semesters =
+                    semesterList 2009 2019
+            in
+            select [ onClick SelectSemester ] (List.map (\s -> option [] [ text s ]) semesters)
+
+        mainTable =
+            table [] (compactDataHeader :: classesRows)
     in
     div []
         [ errorHeader
         , div [] [ text "Work in progress \\(•◡•)/" ]
         , div [] [ text statusText ]
+        , div [ id "filterPanel" ] [ availableCoursesSelect, availableSemestersSelect ]
         , div [] [ mainTable ]
         ]
