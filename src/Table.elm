@@ -5,7 +5,7 @@ module Table exposing
     , placeholderClass
     )
 
-import Decoder exposing (Class)
+import Data exposing (Class)
 import Html exposing (Html, td, text, th, tr)
 
 
