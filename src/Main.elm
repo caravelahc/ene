@@ -81,6 +81,16 @@ update msg model =
                     )
 
 
+errorStr : Maybe String -> String
+errorStr err =
+    case err of
+        Just str ->
+            "Error: " ++ str
+
+        Nothing ->
+            ""
+
+
 view : Model -> Html Msg
 view model =
     let
@@ -99,12 +109,16 @@ view model =
             table [] (compactDataHeader :: classesRows)
 
         errorHeader =
-            case model.error of
-                Just err ->
-                    h2 [] [ text err ]
+            if List.isEmpty (Maybe.withDefault [] model.classList) then
+                h2 [] [ text (errorStr model.csvString) ]
 
-                Nothing ->
-                    span [] []
+            else
+                case model.error of
+                    Just err ->
+                        h2 [] [ text (errorStr model.error) ]
+
+                    Nothing ->
+                        span [] []
     in
     div []
         [ errorHeader
