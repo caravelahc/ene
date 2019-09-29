@@ -1,29 +1,28 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Data exposing (Class, Course, availableCourses, courseToString)
+import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, stringToCourse)
 import Decoder exposing (decodeCsv)
 import Html exposing (Html, div, h2, option, select, span, table, text)
-import Html.Attributes exposing (id)
-import Html.Events exposing (onClick)
-import Requests exposing (CsvResponse(..), stripCSVParameterString)
+import Html.Attributes exposing (id, value)
+import Html.Events exposing (onInput)
+import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
 import Utils exposing (semesterList)
 
 
 type alias Model =
     { error : Maybe String
-    , selectedCourse : Maybe Course
-    , selectedSemester : Maybe String
+    , selectedCourse : Course
+    , selectedSemester : String
     , csvString : Maybe String
     , classList : Maybe (List Class)
     }
 
 
 type Msg
-    = None
-    | SelectCourse
-    | SelectSemester
+    = SelectCourse String
+    | SelectSemester String
     | CSV CsvResponse
 
 
@@ -40,8 +39,8 @@ main =
 init : ( Model, Cmd Msg )
 init =
     ( { error = Nothing
-      , selectedCourse = Nothing
-      , selectedSemester = Nothing
+      , selectedCourse = defaultCourse
+      , selectedSemester = Maybe.withDefault "error" (List.head defaultCourse.availableSemesters)
       , csvString = Nothing
       , classList = Nothing
       }
@@ -53,16 +52,23 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        None ->
-            ( model, Cmd.none )
+        SelectCourse course ->
+            ( { model
+                | selectedCourse =
+                    case stringToCourse course availableCourses of
+                        Just c ->
+                            c
 
-        SelectSemester ->
-            -- Implement select semester
-            ( model, Cmd.none )
+                        Nothing ->
+                            defaultCourse
+              }
+            , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code model.selectedSemester)
+            )
 
-        SelectCourse ->
-            -- Implement select course
-            ( model, Cmd.none )
+        SelectSemester semester ->
+            ( { model | selectedSemester = semester }
+            , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code semester)
+            )
 
         CSV response ->
             case response of
@@ -103,16 +109,9 @@ errorStr err =
 view : Model -> Html Msg
 view model =
     let
-        classesRows =
-            List.map classToCompactDataElement
-                (Maybe.withDefault [ placeholderClass ] model.classList)
-
-        statusText =
-            if List.isEmpty (Maybe.withDefault [] model.classList) then
-                "Fetching CSV data..."
-
-            else
-                ""
+        -- Auxiliary --
+        opt s =
+            option [ value s ] [ text s ]
 
         errorHeader =
             if List.isEmpty (Maybe.withDefault [] model.classList) then
@@ -126,19 +125,38 @@ view model =
                     Nothing ->
                         span [] []
 
+        -- View --
+        classesRows =
+            List.map classToCompactDataElement
+                (Maybe.withDefault [ placeholderClass ] model.classList)
+
+        statusText =
+            if List.isEmpty (Maybe.withDefault [] model.classList) then
+                "Fetching CSV data..."
+
+            else
+                ""
+
         availableCoursesSelect =
             let
                 courseNames =
                     List.map courseToString availableCourses
+
+                courseCode str =
+                    String.slice 0 3 str
             in
-            select [ onClick SelectCourse ] (List.map (\course -> option [] [ text course ]) courseNames)
+            select
+                [ onInput SelectCourse ]
+                (List.map (\course -> option [ value (courseCode course) ] [ text course ]) courseNames)
 
         availableSemestersSelect =
             let
                 semesters =
-                    semesterList 2009 2019
+                    model.selectedCourse.availableSemesters
             in
-            select [ onClick SelectSemester ] (List.map (\s -> option [] [ text s ]) semesters)
+            select
+                [ onInput SelectSemester ]
+                (List.map (\s -> opt s) semesters)
 
         mainTable =
             table [] (compactDataHeader :: classesRows)

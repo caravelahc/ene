@@ -28,3 +28,4 @@ semesterList start end =
             cartesianProduct [ years, semesters ]
     in
     List.map concatLists cartesian
+        |> List.reverse
