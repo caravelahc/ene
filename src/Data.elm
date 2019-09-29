@@ -5,20 +5,13 @@ module Data exposing
     , availableCourses
     , courseToString
     , defaultCourse
+    , lastSemesterFromCourse
     , semesterString
     , stringToCourse
     )
 
 import List.Extra exposing (find)
 import Utils exposing (semesterList)
-
-
-type alias CourseCode =
-    String
-
-
-type alias CourseName =
-    String
 
 
 type alias Course =
@@ -59,6 +52,11 @@ type alias Semester =
 semesterString : Semester -> String
 semesterString s =
     String.fromInt (Tuple.first s) ++ String.fromInt (Tuple.second s)
+
+
+lastSemesterFromCourse : Course -> String
+lastSemesterFromCourse course =
+    Maybe.withDefault "error" (List.head course.availableSemesters)
 
 
 type alias Class =
