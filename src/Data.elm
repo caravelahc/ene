@@ -4,8 +4,13 @@ module Data exposing
     , Semester
     , availableCourses
     , courseToString
+    , defaultCourse
     , semesterString
+    , stringToCourse
     )
+
+import List.Extra exposing (find)
+import Utils exposing (semesterList)
 
 
 type alias CourseCode =
@@ -17,18 +22,34 @@ type alias CourseName =
 
 
 type alias Course =
-    ( CourseCode, CourseName )
+    { code : String
+    , name : String
+    , availableSemesters : List String
+    }
 
 
 courseToString : Course -> String
 courseToString course =
-    Tuple.first course ++ " - " ++ Tuple.second course
+    course.code ++ " - " ++ course.name
+
+
+defaultCourse : Course
+defaultCourse =
+    { code = "208"
+    , name = "CIÊNCIAS DA COMPUTAÇÃO"
+    , availableSemesters = List.drop 1 (semesterList 2009 2019) -- drop inexistent 20192
+    }
 
 
 availableCourses : List Course
 availableCourses =
-    [ ( "208", "CIÊNCIAS DA COMPUTAÇÃO" )
+    [ defaultCourse
     ]
+
+
+stringToCourse : String -> List Course -> Maybe Course
+stringToCourse courseCode list =
+    find (\course -> course.code == courseCode) list
 
 
 type alias Semester =
