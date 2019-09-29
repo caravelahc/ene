@@ -1,14 +1,13 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, stringToCourse)
+import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, stringToCourse)
 import Decoder exposing (decodeCsv)
 import Html exposing (Html, div, h2, option, select, span, table, text)
 import Html.Attributes exposing (id, value)
 import Html.Events exposing (onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
-import Utils exposing (semesterList)
 
 
 type alias Model =
@@ -38,14 +37,17 @@ main =
 
 init : ( Model, Cmd Msg )
 init =
+    let
+        lastSemester =
+            lastSemesterFromCourse defaultCourse
+    in
     ( { error = Nothing
       , selectedCourse = defaultCourse
-      , selectedSemester = Maybe.withDefault "error" (List.head defaultCourse.availableSemesters)
+      , selectedSemester = lastSemester
       , csvString = Nothing
       , classList = Nothing
       }
-      -- Remove hardcoded fetch csv
-    , Cmd.map CSV (Requests.fetchCourseSemesterCSV "208" "20191")
+    , Cmd.map CSV (Requests.fetchCourseSemesterCSV defaultCourse.code lastSemester)
     )
 
 
