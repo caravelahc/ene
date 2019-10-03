@@ -12,7 +12,7 @@ analyse:
 build:
   stage: check
   script:
-    - elm make src/Main.elm --output=index.html
+    - elm make src/Main.elm --output=index.html --optimize
   artifacts:
     paths:
       - index.html

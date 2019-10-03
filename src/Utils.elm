@@ -1,5 +1,7 @@
-module Utils exposing (semesterList)
+module Utils exposing (errorToString, semesterList)
 
+import Http exposing (Error(..))
+import Json.Decode as Json
 import List.Extra exposing (cartesianProduct, getAt)
 
 
@@ -29,3 +31,22 @@ semesterList start end =
     in
     List.map concatLists cartesian
         |> List.reverse
+
+
+errorToString : Http.Error -> String
+errorToString err =
+    case err of
+        Timeout ->
+            "Timeout exceeded"
+
+        NetworkError ->
+            "Network error"
+
+        BadStatus _ ->
+            "BadStatus"
+
+        BadBody _ ->
+            "Bad Body"
+
+        BadUrl url ->
+            "Malformed url: " ++ url
