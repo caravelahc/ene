@@ -8,6 +8,7 @@ import Html.Attributes exposing (id, value)
 import Html.Events exposing (onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
+import Utils exposing (errorToString)
 
 
 type alias Model =
@@ -82,7 +83,7 @@ update msg model =
                                     stripCSVParameterString value
 
                                 Err err ->
-                                    Debug.toString err
+                                    errorToString err
 
                         classesResult =
                             decodeCsv filteredResult

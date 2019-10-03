@@ -4,8 +4,8 @@ A webpage to serve approval/failure rate and notes of UFSC's classes from CSV fi
 
 ## Setup
 1. Install elm by using the [official guide](https://guide.elm-lang.org/install.html).
-2. Compile Elm using
-`elm-make Main.elm --output index.html`
+2. Compile Elm with the time-travelling debugger by using
+`elm-make Main.elm --output index.html --debug`
 or use `elm-reactor` and visit `http://localhost:8000`
 
 ## Data
