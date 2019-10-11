@@ -1,7 +1,6 @@
-module Utils exposing (errorToString, semesterList)
+module Utils exposing (errorToString, semesterList, stringTrimToInt)
 
 import Http exposing (Error(..))
-import Json.Decode as Json
 import List.Extra exposing (cartesianProduct, getAt)
 
 
@@ -31,6 +30,13 @@ semesterList start end =
     in
     List.map concatLists cartesian
         |> List.reverse
+
+
+stringTrimToInt : String -> Maybe Int
+stringTrimToInt str =
+    str
+        |> String.trim
+        |> String.toInt
 
 
 errorToString : Http.Error -> String

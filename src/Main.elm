@@ -3,11 +3,11 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, stringToCourse)
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, div, h2, option, select, span, table, text)
+import Html exposing (Html, div, h2, option, select, span, table, text, th, tr)
 import Html.Attributes exposing (id, value)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Table exposing (classToCompactDataElement, compactDataHeader, placeholderClass)
+import Table exposing (classToCompactDataElement, placeholderClass)
 import Utils exposing (errorToString)
 
 
@@ -23,6 +23,9 @@ type alias Model =
 type Msg
     = SelectCourse String
     | SelectSemester String
+    | OrderApproved
+    | OrderDisapprovedSP
+    | OrderDisapprovedIP
     | CSV CsvResponse
 
 
@@ -73,6 +76,21 @@ update msg model =
             , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code semester)
             )
 
+        OrderApproved ->
+            ( { model | classList = orderClassListBy model.classList .approved }
+            , Cmd.none
+            )
+
+        OrderDisapprovedSP ->
+            ( { model | classList = orderClassListBy model.classList .disapprovedSP }
+            , Cmd.none
+            )
+
+        OrderDisapprovedIP ->
+            ( { model | classList = orderClassListBy model.classList .disapprovedIP }
+            , Cmd.none
+            )
+
         CSV response ->
             case response of
                 GotCSV result ->
@@ -107,6 +125,34 @@ errorStr err =
 
         Nothing ->
             ""
+
+
+orderClassListBy : Maybe (List Class) -> (Class -> comparable) -> Maybe (List Class)
+orderClassListBy l sortKey =
+    let
+        sortedList =
+            List.sortBy sortKey (Maybe.withDefault [] l)
+    in
+    if Just sortedList == l then
+        Just (List.reverse sortedList)
+
+    else
+        Just sortedList
+
+
+compactDataHeader : Html Msg
+compactDataHeader =
+    tr []
+        [ th [] [ text "Centro" ]
+        , th [] [ text "Departamento" ]
+        , th [] [ text "Curso" ]
+        , th [] [ text "Disciplina" ]
+        , th [] [ text "Nome Disciplina" ]
+        , th [] [ text "Alunos Total" ]
+        , th [ onClick OrderApproved ] [ text "Aprovados" ]
+        , th [ onClick OrderDisapprovedSP ] [ text "Reprovados FS" ]
+        , th [ onClick OrderDisapprovedIP ] [ text "Reprovados FI" ]
+        ]
 
 
 view : Model -> Html Msg
