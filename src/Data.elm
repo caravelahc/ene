@@ -70,22 +70,22 @@ type alias Class =
     , classCourse : String
     , courseCode : String
     , courseName : String
-    , credits : String
-    , notes100 : String
-    , notes95and90 : String
-    , notes85and80 : String
-    , notes75and70 : String
-    , notes65and60 : String
-    , notes55and50 : String
-    , notes45and40 : String
-    , notes35and30 : String
-    , notes25and20 : String
-    , notes15and05 : String
-    , notes0SP : String
-    , notes0IP : String
-    , studentsWithGrades : String
-    , mentionOne : String
-    , approved : String
-    , disapprovedSP : String
-    , disapprovedIP : String
+    , credits : Int
+    , notes100 : Int
+    , notes95and90 : Int
+    , notes85and80 : Int
+    , notes75and70 : Int
+    , notes65and60 : Int
+    , notes55and50 : Int
+    , notes45and40 : Int
+    , notes35and30 : Int
+    , notes25and20 : Int
+    , notes15and05 : Int
+    , notes0SP : Int
+    , notes0IP : Int
+    , studentsWithGrades : Int
+    , mentionOne : Int
+    , approved : Int
+    , disapprovedSP : Int
+    , disapprovedIP : Int
     }

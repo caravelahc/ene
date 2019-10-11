@@ -1,35 +1,10 @@
 module Table exposing
     ( classToCompactDataElement
-    , compactData
-    , compactDataHeader
     , placeholderClass
     )
 
 import Data exposing (Class)
-import Html exposing (Html, td, text, th, tr)
-
-
-compactData : List String
-compactData =
-    [ "Centro"
-    , "Departamento"
-    , "Curso"
-    , "Disciplina"
-    , "Nome Disciplina"
-    , "Alunos Total"
-    , "Aprovados"
-    , "Reprovados FS"
-    , "Reprovados FI"
-    ]
-
-
-compactDataHeader : Html msg
-compactDataHeader =
-    tr []
-        (List.map
-            (\h -> th [] [ text h ])
-            compactData
-        )
+import Html exposing (Html, td, text, tr)
 
 
 classToCompactDataElement : Class -> Html msg
@@ -40,43 +15,46 @@ classToCompactDataElement class =
         , td [] [ text class.classCourse ]
         , td [] [ text class.courseCode ]
         , td [] [ text class.courseName ]
-        , td [] [ text class.studentsWithGrades ]
-        , td [] [ text class.approved ]
-        , td [] [ text class.disapprovedSP ]
-        , td [] [ text class.disapprovedIP ]
+        , td [] [ text (String.fromInt class.studentsWithGrades) ]
+        , td [] [ text (String.fromInt class.approved) ]
+        , td [] [ text (String.fromInt class.disapprovedSP) ]
+        , td [] [ text (String.fromInt class.disapprovedIP) ]
         ]
 
 
 placeholderClass : Class
 placeholderClass =
     let
-        p =
+        pStr =
             "---"
+
+        pInt =
+            0
     in
-    { semester = p
-    , center = p
-    , centerName = p
-    , department = p
-    , departmentName = p
-    , classCourse = p
-    , courseCode = p
-    , courseName = p
-    , credits = p
-    , notes100 = p
-    , notes95and90 = p
-    , notes85and80 = p
-    , notes75and70 = p
-    , notes65and60 = p
-    , notes55and50 = p
-    , notes45and40 = p
-    , notes35and30 = p
-    , notes25and20 = p
-    , notes15and05 = p
-    , notes0SP = p
-    , notes0IP = p
-    , studentsWithGrades = p
-    , mentionOne = p
-    , approved = p
-    , disapprovedSP = p
-    , disapprovedIP = p
+    { semester = pStr
+    , center = pStr
+    , centerName = pStr
+    , department = pStr
+    , departmentName = pStr
+    , classCourse = pStr
+    , courseCode = pStr
+    , courseName = pStr
+    , credits = pInt
+    , notes100 = pInt
+    , notes95and90 = pInt
+    , notes85and80 = pInt
+    , notes75and70 = pInt
+    , notes65and60 = pInt
+    , notes55and50 = pInt
+    , notes45and40 = pInt
+    , notes35and30 = pInt
+    , notes25and20 = pInt
+    , notes15and05 = pInt
+    , notes0SP = pInt
+    , notes0IP = pInt
+    , studentsWithGrades = pInt
+    , mentionOne = pInt
+    , approved = pInt
+    , disapprovedSP = pInt
+    , disapprovedIP = pInt
     }
