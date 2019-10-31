@@ -23,6 +23,9 @@ type alias Model =
 type Msg
     = SelectCourse String
     | SelectSemester String
+    | OrderClassCourse
+    | OrderCourseCode
+    | OrderStudentsWithGrades
     | OrderApproved
     | OrderDisapprovedSP
     | OrderDisapprovedIP
@@ -74,6 +77,21 @@ update msg model =
         SelectSemester semester ->
             ( { model | selectedSemester = semester }
             , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code semester)
+            )
+
+        OrderClassCourse ->
+            ( { model | classList = orderClassListBy model.classList .classCourse }
+            , Cmd.none
+            )
+
+        OrderCourseCode ->
+            ( { model | classList = orderClassListBy model.classList .courseCode }
+            , Cmd.none
+            )
+
+        OrderStudentsWithGrades ->
+            ( { model | classList = orderClassListBy model.classList .studentsWithGrades }
+            , Cmd.none
             )
 
         OrderApproved ->
@@ -145,10 +163,10 @@ compactDataHeader =
     tr []
         [ th [] [ text "Centro" ]
         , th [] [ text "Departamento" ]
-        , th [] [ text "Curso" ]
-        , th [] [ text "Disciplina" ]
+        , th [ onClick OrderClassCourse ] [ text "Curso" ]
+        , th [ onClick OrderCourseCode ] [ text "Disciplina" ]
         , th [] [ text "Nome Disciplina" ]
-        , th [] [ text "Alunos Total" ]
+        , th [ onClick OrderStudentsWithGrades ] [ text "Alunos Total" ]
         , th [ onClick OrderApproved ] [ text "Aprovados" ]
         , th [ onClick OrderDisapprovedSP ] [ text "Reprovados FS" ]
         , th [ onClick OrderDisapprovedIP ] [ text "Reprovados FI" ]
