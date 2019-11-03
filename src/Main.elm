@@ -3,11 +3,11 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, stringToCourse)
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, div, h2, option, select, span, table, text, th, tr)
+import Html exposing (Html, div, h2, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (id, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Table exposing (classToCompactDataElement, placeholderClass)
+import Table exposing (placeholderClass)
 import Utils exposing (errorToString)
 
 
@@ -23,12 +23,7 @@ type alias Model =
 type Msg
     = SelectCourse String
     | SelectSemester String
-    | OrderClassCourse
-    | OrderCourseCode
-    | OrderStudentsWithGrades
-    | OrderApproved
-    | OrderDisapprovedSP
-    | OrderDisapprovedIP
+    | Order String
     | CSV CsvResponse
 
 
@@ -79,35 +74,28 @@ update msg model =
             , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code semester)
             )
 
-        OrderClassCourse ->
-            ( { model | classList = orderClassListBy model.classList .classCourse }
-            , Cmd.none
-            )
+        Order str ->
+            case str of
+                "classCourse" ->
+                    ( { model | classList = orderClassListBy model.classList .classCourse }, Cmd.none )
 
-        OrderCourseCode ->
-            ( { model | classList = orderClassListBy model.classList .courseCode }
-            , Cmd.none
-            )
+                "courseCode" ->
+                    ( { model | classList = orderClassListBy model.classList .courseCode }, Cmd.none )
 
-        OrderStudentsWithGrades ->
-            ( { model | classList = orderClassListBy model.classList .studentsWithGrades }
-            , Cmd.none
-            )
+                "studentsWithGrades" ->
+                    ( { model | classList = orderClassListBy model.classList .studentsWithGrades }, Cmd.none )
 
-        OrderApproved ->
-            ( { model | classList = orderClassListBy model.classList .approved }
-            , Cmd.none
-            )
+                "approved" ->
+                    ( { model | classList = orderClassListBy model.classList .approved }, Cmd.none )
 
-        OrderDisapprovedSP ->
-            ( { model | classList = orderClassListBy model.classList .disapprovedSP }
-            , Cmd.none
-            )
+                "disapprovedSP" ->
+                    ( { model | classList = orderClassListBy model.classList .disapprovedSP }, Cmd.none )
 
-        OrderDisapprovedIP ->
-            ( { model | classList = orderClassListBy model.classList .disapprovedIP }
-            , Cmd.none
-            )
+                "disapprovedIP" ->
+                    ( { model | classList = orderClassListBy model.classList .disapprovedIP }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
         CSV response ->
             case response of
@@ -163,13 +151,28 @@ compactDataHeader =
     tr []
         [ th [] [ text "Centro" ]
         , th [] [ text "Departamento" ]
-        , th [ onClick OrderClassCourse ] [ text "Curso" ]
-        , th [ onClick OrderCourseCode ] [ text "Disciplina" ]
+        , th [ onClick (Order "approved") ] [ text "Curso" ]
+        , th [ onClick (Order "courseCode") ] [ text "Disciplina" ]
         , th [] [ text "Nome Disciplina" ]
-        , th [ onClick OrderStudentsWithGrades ] [ text "Alunos Total" ]
-        , th [ onClick OrderApproved ] [ text "Aprovados" ]
-        , th [ onClick OrderDisapprovedSP ] [ text "Reprovados FS" ]
-        , th [ onClick OrderDisapprovedIP ] [ text "Reprovados FI" ]
+        , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos Total" ]
+        , th [ onClick (Order "approved") ] [ text "Aprovados" ]
+        , th [ onClick (Order "disapprovedSP") ] [ text "Reprovados FS" ]
+        , th [ onClick (Order "disapprovedIP") ] [ text "Reprovados FI" ]
+        ]
+
+
+classToCompactDataElement : Class -> Html Msg
+classToCompactDataElement class =
+    tr []
+        [ td [] [ text class.center ]
+        , td [] [ text class.department ]
+        , td [] [ text class.classCourse ]
+        , td [] [ text class.courseCode ]
+        , td [] [ text class.courseName ]
+        , td [] [ text (String.fromInt class.studentsWithGrades) ]
+        , td [] [ text (String.fromInt class.approved) ]
+        , td [] [ text (String.fromInt class.disapprovedSP) ]
+        , td [] [ text (String.fromInt class.disapprovedIP) ]
         ]
 
 
