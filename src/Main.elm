@@ -1,13 +1,12 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, stringToCourse)
+import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, placeholderClass, stringToCourse)
 import Decoder exposing (decodeCsv)
 import Html exposing (Html, div, h2, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (id, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Table exposing (placeholderClass)
 import Utils exposing (errorToString)
 
 

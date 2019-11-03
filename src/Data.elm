@@ -6,6 +6,7 @@ module Data exposing
     , courseToString
     , defaultCourse
     , lastSemesterFromCourse
+    , placeholderClass
     , semesterString
     , stringToCourse
     )
@@ -88,4 +89,43 @@ type alias Class =
     , approved : Int
     , disapprovedSP : Int
     , disapprovedIP : Int
+    }
+
+
+placeholderClass : Class
+placeholderClass =
+    -- Used during loading
+    let
+        pStr =
+            "---"
+
+        pInt =
+            0
+    in
+    { semester = pStr
+    , center = pStr
+    , centerName = pStr
+    , department = pStr
+    , departmentName = pStr
+    , classCourse = pStr
+    , courseCode = pStr
+    , courseName = pStr
+    , credits = pInt
+    , notes100 = pInt
+    , notes95and90 = pInt
+    , notes85and80 = pInt
+    , notes75and70 = pInt
+    , notes65and60 = pInt
+    , notes55and50 = pInt
+    , notes45and40 = pInt
+    , notes35and30 = pInt
+    , notes25and20 = pInt
+    , notes15and05 = pInt
+    , notes0SP = pInt
+    , notes0IP = pInt
+    , studentsWithGrades = pInt
+    , mentionOne = pInt
+    , approved = pInt
+    , disapprovedSP = pInt
+    , disapprovedIP = pInt
     }
