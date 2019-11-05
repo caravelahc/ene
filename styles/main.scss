@@ -1,0 +1,139 @@
+// Paleta de cores: https://coolors.co/020228-191970-4444e2-5f5f77-f0f0f0
+
+$colorText: #020228;
+$colorPrimary: #4444E2;
+$colorPrimaryDark: #191970;
+$colorPrimaryText: #FFFFFF;
+$colorDisabled: #5F5F77;
+$colorBackground: #F0F0F0;
+
+$borderRadius: 3px;
+
+// Fontes do Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito:600|Open+Sans&display=swap');
+
+// Painel de filtros
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: $colorText;
+
+  #filterPanel {
+    position: sticky;
+    top: 0px;
+
+    margin-bottom: 1em;
+
+    background: $colorPrimary;
+    padding: 1em;
+
+    select {
+      text-transform: uppercase;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+
+      color: $colorDisabled;
+      background: $colorBackground;
+
+      border: 1px solid $colorPrimaryDark;
+      border-radius: $borderRadius;
+      padding: 0.5em 1em;
+      margin-right: 1em;
+
+      transition: all 0.2s ease;
+
+      &:hover, &:focus, &:active {
+        color: $colorPrimaryDark;
+        border-color: $colorPrimaryDark;
+        background: #FFFFFF;
+      }
+    }
+  }
+
+  // TODO: Precisamos que a div antes do <table> tenha uma ID ou classe para colocar aqui
+  table {
+    border-collapse: collapse;
+    width: calc(100% - 2em);
+    margin: 0em 1em;
+
+    tr {
+      color: $colorDisabled;
+
+      // Limpa o espaçamento das table cells
+      td, th {
+        margin: 0px;
+        padding: 0.35em 0.5em;
+      }
+
+      // Centraliza as colunas de texto curto Centro (1), Departamento (2), Disciplina (4) e as numéricas (6, 7, 8, 9)
+      td:nth-of-type(1),
+      td:nth-of-type(2),
+      td:nth-of-type(4),
+      td:nth-of-type(6),
+      td:nth-of-type(7),
+      td:nth-of-type(8),
+      td:nth-of-type(9) {
+        text-align: center;
+      }
+
+      // Escurece a fonte quando existir hover
+      &:hover {
+        color: $colorText;
+        background: $colorBackground;
+      }
+    }
+
+    // Head
+    tr:first-child {
+      text-transform: uppercase;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+
+      color: $colorText;
+      background: $colorBackground;
+
+      // Mostra cursor de resize nestas colunas
+      th:nth-child(3),
+      th:nth-child(4),
+      th:nth-child(6),
+      th:nth-child(7),
+      th:nth-child(8),
+      th:nth-child(9) {
+        cursor: ns-resize;
+      }
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close-modal {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
