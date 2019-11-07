@@ -1,7 +1,7 @@
 FROM alpine:latest
 LABEL author="Caravela Hacker Club"
 
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     git \
     git-lfs \
     nodejs \
