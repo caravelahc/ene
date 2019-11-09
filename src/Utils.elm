@@ -1,5 +1,6 @@
-module Utils exposing (errorToString, semesterList, stringTrimToInt)
+module Utils exposing (d, errorToString, semesterList, stringTrimToInt)
 
+import Html exposing (Html, div)
 import Http exposing (Error(..))
 import List.Extra exposing (cartesianProduct, getAt)
 
@@ -56,3 +57,10 @@ errorToString err =
 
         BadUrl url ->
             "Malformed url: " ++ url
+
+
+d : Html msg
+d =
+    -- This function is placed here so elm-analyse doesn't freak out with an unused package.
+    -- Configuring unused imports is impossible and Elm freaks out when you try removing elm/html
+    div [] []
