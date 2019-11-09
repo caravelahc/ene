@@ -3,10 +3,11 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, placeholderClass, stringToCourse)
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, div, h2, option, select, span, table, td, text, th, tr)
-import Html.Attributes exposing (id, value)
-import Html.Events exposing (onClick, onInput)
+import Html.Styled exposing (Html, div, h2, option, p, select, span, table, td, text, th, toUnstyled, tr)
+import Html.Styled.Attributes exposing (css, id, value)
+import Html.Styled.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
+import Style exposing (modalContentStyle, modalStyle)
 import Utils exposing (errorToString)
 
 
@@ -15,6 +16,7 @@ type alias Model =
     , selectedCourse : Course
     , selectedSemester : String
     , csvString : Maybe String
+    , gradePopupOpen : Bool
     , classList : Maybe (List Class)
     }
 
@@ -23,6 +25,7 @@ type Msg
     = SelectCourse String
     | SelectSemester String
     | Order String
+    | ToggleGradePopup
     | CSV CsvResponse
 
 
@@ -32,7 +35,7 @@ main =
         { init = \() -> init
         , update = update
         , subscriptions = \_ -> Sub.none
-        , view = view
+        , view = view >> toUnstyled
         }
 
 
@@ -46,6 +49,7 @@ init =
       , selectedCourse = defaultCourse
       , selectedSemester = lastSemester
       , csvString = Nothing
+      , gradePopupOpen = False
       , classList = Nothing
       }
     , Cmd.map CSV (Requests.fetchCourseSemesterCSV defaultCourse.code lastSemester)
@@ -95,6 +99,9 @@ update msg model =
 
                 _ ->
                     ( model, Cmd.none )
+
+        ToggleGradePopup ->
+            ( { model | gradePopupOpen = not model.gradePopupOpen }, Cmd.none )
 
         CSV response ->
             case response of
@@ -162,7 +169,7 @@ compactDataHeader =
 
 classToCompactDataElement : Class -> Html Msg
 classToCompactDataElement class =
-    tr []
+    tr [ onClick ToggleGradePopup ]
         [ td [] [ text class.center ]
         , td [] [ text class.department ]
         , td [] [ text class.classCourse ]
@@ -172,6 +179,16 @@ classToCompactDataElement class =
         , td [] [ text (String.fromInt class.approved) ]
         , td [] [ text (String.fromInt class.disapprovedSP) ]
         , td [] [ text (String.fromInt class.disapprovedIP) ]
+        ]
+
+
+renderGradesModal : Html Msg
+renderGradesModal =
+    div [ css [ modalStyle ], onClick ToggleGradePopup ]
+        [ div [ css [ modalContentStyle ] ]
+            [ span [] []
+            , p [] [ text "test" ]
+            ]
         ]
 
 
@@ -236,4 +253,9 @@ view model =
         , div [] [ text statusText ]
         , div [ id "filterPanel" ] [ availableCoursesSelect, availableSemestersSelect ]
         , div [] [ mainTable ]
+        , if model.gradePopupOpen then
+            renderGradesModal
+
+          else
+            text ""
         ]
