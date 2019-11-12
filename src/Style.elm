@@ -22,8 +22,23 @@ modalContentStyle : Style
 modalContentStyle =
     batch
         [ backgroundColor (hex "#fefefe")
-        , margin (pct 15)
+        , margin2 (pct 15) auto
         , padding (px 20)
-        , border (px 1)
+        , border3 (px 1) solid (hex "#888")
         , width (pct 80)
+        ]
+
+
+modalCloseButtonStyle : Style
+modalCloseButtonStyle =
+    batch
+        [ color (hex "#aaa")
+        , float right
+        , fontSize (px 28)
+        , fontWeight bold
+        , hover
+            [ color (rgb 0 0 0)
+            , textDecoration none
+            , cursor pointer
+            ]
         ]

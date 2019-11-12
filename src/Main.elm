@@ -7,7 +7,7 @@ import Html.Styled exposing (Html, div, h2, option, p, select, span, table, td, 
 import Html.Styled.Attributes exposing (css, id, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Style exposing (modalContentStyle, modalStyle)
+import Style exposing (modalCloseButtonStyle, modalContentStyle, modalStyle)
 import Utils exposing (errorToString)
 
 
@@ -186,7 +186,7 @@ renderGradesModal : Html Msg
 renderGradesModal =
     div [ css [ modalStyle ], onClick ToggleGradePopup ]
         [ div [ css [ modalContentStyle ] ]
-            [ span [] []
+            [ span [ css [ modalCloseButtonStyle ] ] [ text "X" ]
             , p [] [ text "test" ]
             ]
         ]
