@@ -5,10 +5,11 @@ module Data exposing
     , availableCourses
     , courseToString
     , defaultCourse
+    , findClassByCode
+    , findCourseByCode
     , lastSemesterFromCourse
     , placeholderClass
     , semesterString
-    , stringToCourse
     )
 
 import List.Extra exposing (find)
@@ -39,11 +40,6 @@ availableCourses : List Course
 availableCourses =
     [ defaultCourse
     ]
-
-
-stringToCourse : String -> List Course -> Maybe Course
-stringToCourse courseCode list =
-    find (\course -> course.code == courseCode) list
 
 
 type alias Semester =
@@ -90,6 +86,16 @@ type alias Class =
     , disapprovedSP : Int
     , disapprovedIP : Int
     }
+
+
+findCourseByCode : String -> List Course -> Maybe Course
+findCourseByCode courseCode list =
+    find (\course -> course.code == courseCode) list
+
+
+findClassByCode : String -> List Class -> Maybe Class
+findClassByCode classCourseCode list =
+    find (\class -> class.courseCode == classCourseCode) list
 
 
 placeholderClass : Class

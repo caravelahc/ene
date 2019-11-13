@@ -1,7 +1,18 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Data exposing (Class, Course, availableCourses, courseToString, defaultCourse, lastSemesterFromCourse, placeholderClass, stringToCourse)
+import Data
+    exposing
+        ( Class
+        , Course
+        , availableCourses
+        , courseToString
+        , defaultCourse
+        , findClassByCode
+        , findCourseByCode
+        , lastSemesterFromCourse
+        , placeholderClass
+        )
 import Decoder exposing (decodeCsv)
 import Html.Styled exposing (Html, div, h2, option, p, select, span, table, td, text, th, toUnstyled, tr)
 import Html.Styled.Attributes exposing (css, id, value)
@@ -15,6 +26,7 @@ type alias Model =
     { error : Maybe String
     , selectedCourse : Course
     , selectedSemester : String
+    , selectedClass : Maybe Class
     , csvString : Maybe String
     , gradePopupOpen : Bool
     , classList : Maybe (List Class)
@@ -25,7 +37,7 @@ type Msg
     = SelectCourse String
     | SelectSemester String
     | Order String
-    | ToggleGradePopup
+    | ToggleGradePopup String
     | CSV CsvResponse
 
 
@@ -48,6 +60,7 @@ init =
     ( { error = Nothing
       , selectedCourse = defaultCourse
       , selectedSemester = lastSemester
+      , selectedClass = Nothing
       , csvString = Nothing
       , gradePopupOpen = False
       , classList = Nothing
@@ -62,7 +75,7 @@ update msg model =
         SelectCourse course ->
             ( { model
                 | selectedCourse =
-                    case stringToCourse course availableCourses of
+                    case findCourseByCode course availableCourses of
                         Just c ->
                             c
 
@@ -100,8 +113,13 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
-        ToggleGradePopup ->
-            ( { model | gradePopupOpen = not model.gradePopupOpen }, Cmd.none )
+        ToggleGradePopup classCourseCode ->
+            ( { model
+                | gradePopupOpen = not model.gradePopupOpen
+                , selectedClass = findClassByCode classCourseCode (Maybe.withDefault [] model.classList)
+              }
+            , Cmd.none
+            )
 
         CSV response ->
             case response of
@@ -169,7 +187,7 @@ compactDataHeader =
 
 classToCompactDataElement : Class -> Html Msg
 classToCompactDataElement class =
-    tr [ onClick ToggleGradePopup ]
+    tr [ onClick (ToggleGradePopup class.courseCode) ]
         [ td [] [ text class.center ]
         , td [] [ text class.department ]
         , td [] [ text class.classCourse ]
@@ -182,14 +200,25 @@ classToCompactDataElement class =
         ]
 
 
-renderGradesModal : Html Msg
-renderGradesModal =
-    div [ css [ modalStyle ], onClick ToggleGradePopup ]
+renderGradesModal : Model -> Html Msg
+renderGradesModal model =
+    div [ css [ modalStyle ], onClick (ToggleGradePopup "") ]
         [ div [ css [ modalContentStyle ] ]
             [ span [ css [ modalCloseButtonStyle ] ] [ text "X" ]
-            , p [] [ text "test" ]
+            , h2 [] [ text (currentClassCode model ++ " - Distribuição de notas") ]
+            , p [] [ text "Notas" ]
             ]
         ]
+
+
+currentClassCode : Model -> String
+currentClassCode model =
+    case model.selectedClass of
+        Nothing ->
+            "Nothing"
+
+        Just class ->
+            class.courseCode
 
 
 view : Model -> Html Msg
@@ -254,7 +283,7 @@ view model =
         , div [ id "filterPanel" ] [ availableCoursesSelect, availableSemestersSelect ]
         , div [] [ mainTable ]
         , if model.gradePopupOpen then
-            renderGradesModal
+            renderGradesModal model
 
           else
             text ""
