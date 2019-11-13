@@ -68,18 +68,18 @@ type alias Class =
     , courseCode : String
     , courseName : String
     , credits : Int
-    , notes100 : Int
-    , notes95and90 : Int
-    , notes85and80 : Int
-    , notes75and70 : Int
-    , notes65and60 : Int
-    , notes55and50 : Int
-    , notes45and40 : Int
-    , notes35and30 : Int
-    , notes25and20 : Int
-    , notes15and05 : Int
-    , notes0SP : Int
-    , notes0IP : Int
+    , grades100 : Int
+    , grades95to90 : Int
+    , grades85to80 : Int
+    , grades75to70 : Int
+    , grades65to60 : Int
+    , grades55to50 : Int
+    , grades45to40 : Int
+    , grades35to30 : Int
+    , grades25to20 : Int
+    , grades15to05 : Int
+    , grades0SP : Int
+    , grades0IP : Int
     , studentsWithGrades : Int
     , mentionOne : Int
     , approved : Int
@@ -117,18 +117,18 @@ placeholderClass =
     , courseCode = pStr
     , courseName = pStr
     , credits = pInt
-    , notes100 = pInt
-    , notes95and90 = pInt
-    , notes85and80 = pInt
-    , notes75and70 = pInt
-    , notes65and60 = pInt
-    , notes55and50 = pInt
-    , notes45and40 = pInt
-    , notes35and30 = pInt
-    , notes25and20 = pInt
-    , notes15and05 = pInt
-    , notes0SP = pInt
-    , notes0IP = pInt
+    , grades100 = pInt
+    , grades95to90 = pInt
+    , grades85to80 = pInt
+    , grades75to70 = pInt
+    , grades65to60 = pInt
+    , grades55to50 = pInt
+    , grades45to40 = pInt
+    , grades35to30 = pInt
+    , grades25to20 = pInt
+    , grades15to05 = pInt
+    , grades0SP = pInt
+    , grades0IP = pInt
     , studentsWithGrades = pInt
     , mentionOne = pInt
     , approved = pInt
