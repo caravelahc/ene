@@ -8,6 +8,8 @@ A webpage to serve approval/failure rate and notes of UFSC's classes from CSV fi
 `elm-make Main.elm --output index.html --debug`
 or use `elm-reactor` and visit `http://localhost:8000`
 
+Due to external CSS i recommend using [`elm-live`](https://github.com/wking-io/elm-live) during development.
+
 ## Data
 Data is obtained from a government website called [e-SIC](https://esic.cgu.gov.br/).
 

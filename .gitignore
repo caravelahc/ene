@@ -1,5 +1,8 @@
 *.~lock.*
 *.code-workspace
+*.js
+*.html
+!index.html
 
 ### Elm ###
 elm-stuff

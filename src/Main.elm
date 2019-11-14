@@ -1,11 +1,13 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
+import Chart exposing (renderGradesChart)
 import Data
     exposing
         ( Class
         , Course
         , availableCourses
+        , classToChartTupleArray
         , courseToString
         , defaultCourse
         , findClassByCode
@@ -14,11 +16,10 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html.Styled exposing (Html, div, h2, option, p, select, span, table, td, text, th, toUnstyled, tr)
-import Html.Styled.Attributes exposing (css, id, value)
-import Html.Styled.Events exposing (onClick, onInput)
+import Html exposing (Html, div, h2, option, p, select, span, table, td, text, th, tr)
+import Html.Attributes exposing (class, id, value)
+import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Style exposing (modalCloseButtonStyle, modalContentStyle, modalStyle)
 import Utils exposing (errorToString)
 
 
@@ -47,7 +48,7 @@ main =
         { init = \() -> init
         , update = update
         , subscriptions = \_ -> Sub.none
-        , view = view >> toUnstyled
+        , view = view
         }
 
 
@@ -202,11 +203,12 @@ classToCompactDataElement class =
 
 renderGradesModal : Model -> Html Msg
 renderGradesModal model =
-    div [ css [ modalStyle ], onClick (ToggleGradePopup "") ]
-        [ div [ css [ modalContentStyle ] ]
-            [ span [ css [ modalCloseButtonStyle ] ] [ text "X" ]
+    div [ id "modal", class "modal", onClick (ToggleGradePopup "") ]
+        [ div [ class "modal-content" ]
+            [ span [ class "close-modal" ] [ text "X" ]
             , h2 [] [ text (currentClassCode model ++ " - Distribuição de notas") ]
             , p [] [ text "Notas" ]
+            , div [] [ renderGradesChart (classToChartTupleArray model.selectedClass) ]
             ]
         ]
 
