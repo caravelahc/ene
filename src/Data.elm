@@ -1,8 +1,10 @@
 module Data exposing
-    ( Class
+    ( ChartTuple
+    , Class
     , Course
     , Semester
     , availableCourses
+    , classToChartTupleArray
     , courseToString
     , defaultCourse
     , findClassByCode
@@ -96,6 +98,32 @@ findCourseByCode courseCode list =
 findClassByCode : String -> List Class -> Maybe Class
 findClassByCode classCourseCode list =
     find (\class -> class.courseCode == classCourseCode) list
+
+
+type alias ChartTuple =
+    -- Tuple of grade group (0 to 10) and number of students in that group
+    ( Int, Int )
+
+
+classToChartTupleArray : Maybe Class -> List ChartTuple
+classToChartTupleArray class =
+    let
+        c =
+            Maybe.withDefault placeholderClass class
+    in
+    [ ( -1, c.grades0IP )
+    , ( 0, c.grades0SP )
+    , ( 1, c.grades15to05 )
+    , ( 2, c.grades25to20 )
+    , ( 3, c.grades35to30 )
+    , ( 4, c.grades45to40 )
+    , ( 5, c.grades55to50 )
+    , ( 6, c.grades65to60 )
+    , ( 7, c.grades75to70 )
+    , ( 8, c.grades85to80 )
+    , ( 9, c.grades95to90 )
+    , ( 10, c.grades100 )
+    ]
 
 
 placeholderClass : Class
