@@ -203,24 +203,21 @@ classToCompactDataElement class =
 
 renderGradesModal : Model -> Html Msg
 renderGradesModal model =
+    let
+        s =
+            " - "
+
+        currentClass =
+            Maybe.withDefault placeholderClass model.selectedClass
+    in
     div [ id "modal", class "modal", onClick (ToggleGradePopup "") ]
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
-            , h2 [] [ text (currentClassCode model ++ " - Distribuição de notas") ]
+            , h2 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName ++ s ++ "Distribuição de notas") ]
             , p [] [ text "Notas" ]
             , div [] [ renderGradesChart (classToChartTupleArray model.selectedClass) ]
             ]
         ]
-
-
-currentClassCode : Model -> String
-currentClassCode model =
-    case model.selectedClass of
-        Nothing ->
-            "Nothing"
-
-        Just class ->
-            class.courseCode
 
 
 view : Model -> Html Msg

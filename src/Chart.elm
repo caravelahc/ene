@@ -2,7 +2,7 @@ module Chart exposing (renderGradesChart)
 
 import Axis
 import Data exposing (ChartTuple)
-import Scale exposing ( BandScale, ContinuousScale, defaultBandConfig)
+import Scale exposing (BandScale, ContinuousScale, defaultBandConfig)
 import TypedSvg exposing (g, rect, style, svg, text_)
 import TypedSvg.Attributes exposing (class, textAnchor, transform, viewBox)
 import TypedSvg.Attributes.InPx exposing (height, width, x, y)
@@ -38,38 +38,40 @@ xAxisFormat n =
     String.fromInt n
 
 
+xAxis : List ChartTuple -> Svg msg
+xAxis data =
+    Axis.bottom [] (Scale.toRenderable xAxisFormat (xScale data))
+
+
 yScale : ContinuousScale Float
 yScale =
-    Scale.linear ( h - 2 * padding, 0 ) ( 0, 10 )
-
-
-xAxis : List ChartTuple -> Svg msg
-xAxis model =
-    Axis.bottom [] (Scale.toRenderable xAxisFormat (xScale model))
+    Scale.linear ( h - 2 * padding, 0 ) ( 0, 25 )
 
 
 yAxis : Svg msg
 yAxis =
-    Axis.left [ Axis.tickCount 5 ] yScale
+    Axis.left [ Axis.tickCount 10 ] yScale
 
 
 column : BandScale Int -> ChartTuple -> Svg msg
-column scale ( gradeGroup, studentsInt ) =
+column data tuple =
     let
+        gradeGroup =
+            Tuple.first tuple
+
         students =
-            toFloat studentsInt
+            toFloat (Tuple.second tuple)
     in
-    g
-        [ class [ "column" ] ]
+    g [ class [ "column" ] ]
         [ rect
-            [ x <| Scale.convert scale gradeGroup
+            [ x <| Scale.convert data gradeGroup
             , y <| Scale.convert yScale students
-            , width <| Scale.bandwidth scale
+            , width <| Scale.bandwidth data
             , height <| h - Scale.convert yScale students - 2 * padding
             ]
             []
         , text_
-            [ x <| Scale.convert (Scale.toRenderable xAxisFormat scale) gradeGroup
+            [ x <| Scale.convert (Scale.toRenderable xAxisFormat data) gradeGroup
             , y <| Scale.convert yScale students - 5
             , textAnchor AnchorMiddle
             ]
@@ -78,18 +80,18 @@ column scale ( gradeGroup, studentsInt ) =
 
 
 renderGradesChart : List ChartTuple -> Svg msg
-renderGradesChart model =
+renderGradesChart data =
     svg [ viewBox 0 0 w h ]
         [ style [] [ text """
-            .column rect { fill: rgba(118, 214, 78, 0.8); }
+            .column rect { fill: rgba(118, 214, 78, 0.75); }
             .column text { display: none; }
-            .column:hover rect { fill: rgb(118, 214, 78); }
-            .column:hover text { display: inline; }
+            .column:hover rect { fill: rgb(148, 244, 108); }
+            .column:hover text { display: block; }
           """ ]
         , g [ transform [ Translate (padding - 1) (h - padding) ] ]
-            [ xAxis model ]
+            [ xAxis data ]
         , g [ transform [ Translate (padding - 1) padding ] ]
             [ yAxis ]
         , g [ transform [ Translate padding padding ], class [ "series" ] ] <|
-            List.map (column (xScale model)) model
+            List.map (column (xScale data)) data
         ]
