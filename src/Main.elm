@@ -16,7 +16,7 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, div, h2, option, p, select, span, table, td, text, th, tr)
+import Html exposing (Html, div, h1, h2, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (class, id, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
@@ -205,7 +205,7 @@ renderGradesModal : Model -> Html Msg
 renderGradesModal model =
     let
         s =
-            " - "
+            " | "
 
         currentClass =
             Maybe.withDefault placeholderClass model.selectedClass
@@ -213,8 +213,8 @@ renderGradesModal model =
     div [ id "modal", class "modal", onClick (ToggleGradePopup "") ]
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
-            , h2 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName ++ s ++ "Distribuição de notas") ]
-            , p [] [ text "Notas" ]
+            , h1 [] [ text "Distribuição de notas" ]
+            , h2 [] [ text (currentClass.courseCode ++ s ++ currentClass.classCourse ++ s ++ currentClass.courseName) ]
             , div [] [ renderGradesChart (classToChartTupleArray model.selectedClass) ]
             ]
         ]
