@@ -12,10 +12,10 @@ analyse:
 build:
   stage: check
   script:
-    - elm make src/Main.elm --output=index.html --optimize
+    - elm make src/Main.elm --output=main.js --optimize
   artifacts:
     paths:
-      - index.html
+      - main.js
 
 deploy:
   stage: deploy
@@ -28,6 +28,6 @@ deploy:
     - git config user.email ${DEPLOY_EMAIL}
     - git remote add github ${REMOTE_URL}
     - git checkout --orphan tmp
-    - git reset && git add csv/ index.html
+    - git reset && git add -f csv/ styles/ main.js index.html
     - 'git commit -m "[ci-skip] Deploy GitHub Pages ${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}" -m "Deploy from GitLab pipeline ${CI_COMMIT_SHA}"'
     - git push github tmp:gh-pages --force
