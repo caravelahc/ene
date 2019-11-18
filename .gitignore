@@ -1,3 +1,5 @@
+*.css.map
+*.css
 *.~lock.*
 *.code-workspace
 *.js

@@ -1,4 +1,4 @@
-image: barichello/elm
+image: barichello/elm:sass
 
 stages:
   - check
@@ -12,9 +12,11 @@ analyse:
 build:
   stage: check
   script:
+    - sass styles/main.scss styles/main.css
     - elm make src/Main.elm --output=main.js --optimize
   artifacts:
     paths:
+      - styles/main.css
       - main.js
 
 deploy:
