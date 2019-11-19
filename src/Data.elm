@@ -1,7 +1,9 @@
 module Data exposing
     ( ChartTuple
     , Class
+    , ClassCourse
     , Course
+    , CourseCode
     , Semester
     , availableCourses
     , classToChartTupleArray
@@ -58,6 +60,14 @@ lastSemesterFromCourse course =
     Maybe.withDefault "error" (List.head course.availableSemesters)
 
 
+type alias CourseCode =
+    String
+
+
+type alias ClassCourse =
+    String
+
+
 type alias Class =
     -- SP - Sufficient Presence
     -- IP - Insufficient Presence
@@ -66,8 +76,8 @@ type alias Class =
     , centerName : String
     , department : String
     , departmentName : String
-    , classCourse : String
-    , courseCode : String
+    , classCourse : ClassCourse
+    , courseCode : CourseCode
     , courseName : String
     , credits : Int
     , grades100 : Int
@@ -95,9 +105,9 @@ findCourseByCode courseCode list =
     find (\course -> course.code == courseCode) list
 
 
-findClassByCode : String -> List Class -> Maybe Class
-findClassByCode classCourseCode list =
-    find (\class -> class.courseCode == classCourseCode) list
+findClassByCode : ClassCourse -> CourseCode -> List Class -> Maybe Class
+findClassByCode classCourse classCourseCode list =
+    find (\class -> class.classCourse == classCourse && class.courseCode == classCourseCode) list
 
 
 type alias ChartTuple =
