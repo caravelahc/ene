@@ -176,7 +176,7 @@ compactDataHeader =
     tr []
         [ th [] [ text "Centro" ]
         , th [] [ text "Departamento" ]
-        , th [ onClick (Order "approved") ] [ text "Curso" ]
+        , th [ onClick (Order "classCourse") ] [ text "Curso" ]
         , th [ onClick (Order "courseCode") ] [ text "Disciplina" ]
         , th [] [ text "Nome Disciplina" ]
         , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos Total" ]
