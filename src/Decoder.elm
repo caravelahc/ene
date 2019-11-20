@@ -12,18 +12,23 @@ toIntResult str =
     Result.fromMaybe ("Error using toIntResult with" ++ str) (stringTrimToInt str)
 
 
+stringDecoder : String -> Result String String
+stringDecoder str =
+    Ok (String.trim str)
+
+
 classDecoder : Decoder (Class -> a) a
 classDecoder =
     -- Exact mapping of CSV headers (including wrong spaces)
     map Class
-        (field "semestre" Ok
-            |> andMap (field "centroDoDepartamento" Ok)
-            |> andMap (field "nomeDoCentro" Ok)
-            |> andMap (field "departamento" Ok)
-            |> andMap (field "nomeDoDepartamento_Campus" Ok)
-            |> andMap (field "turmaDoCurso" Ok)
-            |> andMap (field "disciplina" Ok)
-            |> andMap (field "nomeDaDisciplina" Ok)
+        (field "semestre" stringDecoder
+            |> andMap (field "centroDoDepartamento" stringDecoder)
+            |> andMap (field "nomeDoCentro" stringDecoder)
+            |> andMap (field "departamento" stringDecoder)
+            |> andMap (field "nomeDoDepartamento_Campus" stringDecoder)
+            |> andMap (field "turmaDoCurso" stringDecoder)
+            |> andMap (field "disciplina" stringDecoder)
+            |> andMap (field "nomeDaDisciplina" stringDecoder)
             |> andMap (field "HorasAulas" toIntResult)
             |> andMap (field "qtdeNota10,0" toIntResult)
             |> andMap (field "qtdeNota9,5_9,0" toIntResult)

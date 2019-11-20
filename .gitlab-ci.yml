@@ -1,4 +1,4 @@
-image: barichello/elm:sass
+image: barichello/elm:ene
 
 stages:
   - check
