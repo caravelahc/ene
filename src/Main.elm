@@ -5,7 +5,9 @@ import Chart exposing (renderGradesChart)
 import Data
     exposing
         ( Class
+        , ClassCourse
         , Course
+        , CourseCode
         , availableCourses
         , classToChartTupleArray
         , courseToString
@@ -38,7 +40,7 @@ type Msg
     = SelectCourse String
     | SelectSemester String
     | Order String
-    | ToggleGradePopup String
+    | ToggleGradePopup ClassCourse CourseCode
     | CSV CsvResponse
 
 
@@ -114,10 +116,10 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
-        ToggleGradePopup classCourseCode ->
+        ToggleGradePopup classCourse classCourseCode ->
             ( { model
                 | gradePopupOpen = not model.gradePopupOpen
-                , selectedClass = findClassByCode classCourseCode (Maybe.withDefault [] model.classList)
+                , selectedClass = findClassByCode classCourse classCourseCode (Maybe.withDefault [] model.classList)
               }
             , Cmd.none
             )
@@ -171,12 +173,12 @@ orderClassListBy l sortKey =
         Just sortedList
 
 
-compactDataHeader : Html Msg
-compactDataHeader =
+dataHeader : Html Msg
+dataHeader =
     tr []
         [ th [] [ text "Centro" ]
         , th [] [ text "Departamento" ]
-        , th [ onClick (Order "approved") ] [ text "Curso" ]
+        , th [ onClick (Order "classCourse") ] [ text "Curso" ]
         , th [ onClick (Order "courseCode") ] [ text "Disciplina" ]
         , th [] [ text "Nome Disciplina" ]
         , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos Total" ]
@@ -186,9 +188,9 @@ compactDataHeader =
         ]
 
 
-classToCompactDataElement : Class -> Html Msg
-classToCompactDataElement class =
-    tr [ onClick (ToggleGradePopup class.courseCode) ]
+dataRow : Class -> Html Msg
+dataRow class =
+    tr [ onClick (ToggleGradePopup class.classCourse class.courseCode) ]
         [ td [] [ text class.center ]
         , td [] [ text class.department ]
         , td [] [ text class.classCourse ]
@@ -210,7 +212,7 @@ renderGradesModal model =
         currentClass =
             Maybe.withDefault placeholderClass model.selectedClass
     in
-    div [ id "modal", class "modal", onClick (ToggleGradePopup "") ]
+    div [ id "modal", class "modal", onClick (ToggleGradePopup "" "") ]
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
             , h1 [] [ text "Distribuição de notas" ]
@@ -241,7 +243,7 @@ view model =
 
         -- View --
         classesRows =
-            List.map classToCompactDataElement
+            List.map dataRow
                 (Maybe.withDefault [ placeholderClass ] model.classList)
 
         statusText =
@@ -273,7 +275,7 @@ view model =
                 (List.map (\s -> opt s) semesters)
 
         mainTable =
-            table [] (compactDataHeader :: classesRows)
+            table [] (dataHeader :: classesRows)
     in
     div []
         [ errorHeader

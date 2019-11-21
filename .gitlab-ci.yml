@@ -1,4 +1,4 @@
-image: barichello/elm
+image: barichello/elm:sass
 
 stages:
   - check
@@ -12,9 +12,11 @@ analyse:
 build:
   stage: check
   script:
+    - sass styles/main.scss styles/main.css
     - elm make src/Main.elm --output=main.js --optimize
   artifacts:
     paths:
+      - styles/main.css
       - main.js
 
 deploy:
@@ -28,6 +30,6 @@ deploy:
     - git config user.email ${DEPLOY_EMAIL}
     - git remote add github ${REMOTE_URL}
     - git checkout --orphan tmp
-    - git reset && git add -f csv/ styles/ main.js index.html
+    - git reset && git add -f csv/ styles/ main.js index.html CNAME
     - 'git commit -m "[ci-skip] Deploy GitHub Pages ${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}" -m "Deploy from GitLab pipeline ${CI_COMMIT_SHA}"'
     - git push github tmp:gh-pages --force
