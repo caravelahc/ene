@@ -1,5 +1,3 @@
-// Paleta de cores: https://coolors.co/020228-191970-4444e2-5f5f77-f0f0f0
-
 $colorText: #020228;
 $colorPrimary: #003b6f;
 $colorPrimaryDark: darken($colorPrimary, 10%);
@@ -17,7 +15,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   color: $colorText;
 
-  #filterPanel {
+  #caravela-header {
     position: sticky;
     top: 0px;
 
@@ -32,7 +30,7 @@ body {
 
     text-align: right;
 
-    input, select {
+    input, select, search {
       text-transform: uppercase;
       font-family: 'Nunito', sans-serif;
       font-weight: 600;
@@ -55,7 +53,6 @@ body {
     }
   }
 
-  // TODO: Precisamos que a div antes do <table> tenha uma ID ou classe para colocar aqui
   table {
     border-collapse: collapse;
     width: calc(100% - 2em);

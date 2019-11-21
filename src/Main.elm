@@ -21,7 +21,7 @@ import Data
         )
 import Decoder exposing (decodeCsv)
 import Html exposing (Html, datalist, div, h1, h2, input, option, select, span, table, td, text, th, tr)
-import Html.Attributes exposing (class, disabled, id, list, value)
+import Html.Attributes exposing (class, disabled, id, list, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Utils exposing (errorToString)
@@ -34,7 +34,6 @@ type alias Model =
     , selectedClass : Maybe Class
     , csvString : Maybe String
     , gradePopupOpen : Bool
-    , courseNameSearchAvailable : Bool
     , classList : Maybe (List Class)
     }
 
@@ -70,7 +69,6 @@ init =
       , selectedClass = Nothing
       , csvString = Nothing
       , gradePopupOpen = False
-      , courseNameSearchAvailable = True
       , classList = Nothing
       }
     , Cmd.map CSV (Requests.fetchCourseSemesterCSV defaultCourse.code lastSemester)
@@ -277,6 +275,17 @@ view model =
             else
                 ""
 
+        courseSearchField =
+            input
+                [ id "search"
+                , list "courses"
+                , placeholder "Digite o nome da disciplina"
+                , onInput ChangeCourseQuery
+                ]
+                [ datalist [ id "courses" ]
+                    (List.map (opt << classToString) (getClassList model))
+                ]
+
         availableCoursesSelect =
             let
                 courseNames =
@@ -298,18 +307,8 @@ view model =
                 [ onInput SelectSemester ]
                 (List.map (\s -> opt s) semesters)
 
-        courseSearchField =
-            input
-                [ list "courses"
-                , disabled (not model.courseNameSearchAvailable)
-                , onInput ChangeCourseQuery
-                ]
-                [ datalist [ id "courses" ]
-                    (List.map (opt << classToString) (getClassList model))
-                ]
-
         caravelaHeader =
-            div [ id "filterPanel" ]
+            div [ id "caravela-header" ]
                 [ courseSearchField
                 , availableCoursesSelect
                 , availableSemestersSelect
@@ -320,7 +319,7 @@ view model =
     in
     div []
         [ errorHeader
-        , div [] [ text statusText ]
+        , div [ id "status-text " ] [ text statusText ]
         , caravelaHeader
         , div [] [ mainTable ]
         , if model.gradePopupOpen then
