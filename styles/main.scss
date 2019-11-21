@@ -1,8 +1,8 @@
 // Paleta de cores: https://coolors.co/020228-191970-4444e2-5f5f77-f0f0f0
 
 $colorText: #020228;
-$colorPrimary: #4444E2;
-$colorPrimaryDark: #191970;
+$colorPrimary: #003b6f;
+$colorPrimaryDark: darken($colorPrimary, 10%);
 $colorPrimaryText: #FFFFFF;
 $colorDisabled: #5F5F77;
 $colorBackground: #F0F0F0;
@@ -24,9 +24,15 @@ body {
     margin-bottom: 1em;
 
     background: $colorPrimary;
+    background-image: url('https://caravela.club/img/logo_horizontal.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
     padding: 1em;
 
-    select {
+    text-align: right;
+
+    input, select {
       text-transform: uppercase;
       font-family: 'Nunito', sans-serif;
       font-weight: 600;
