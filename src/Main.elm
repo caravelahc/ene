@@ -20,8 +20,8 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, datalist, div, h1, h2, input, option, select, span, table, td, text, th, tr)
-import Html.Attributes exposing (class, disabled, id, list, placeholder, value)
+import Html exposing (Html, datalist, div, h1, h2, img, input, option, select, span, table, td, text, th, tr)
+import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Utils exposing (errorToString)
@@ -275,6 +275,14 @@ view model =
             else
                 ""
 
+        caravelaImg =
+            img
+                [ id "caravela-logo"
+                , src "./img/logo_horizontal.png"
+                , href "https://caravela.club"
+                ]
+                []
+
         courseSearchField =
             input
                 [ id "search"
@@ -307,11 +315,21 @@ view model =
                 [ onInput SelectSemester ]
                 (List.map (\s -> opt s) semesters)
 
+        githubImg =
+            img
+                [ id "github-logo"
+                , src "./img/github.png"
+                , href "https://github.com/caravelahc/ene"
+                ]
+                []
+
         caravelaHeader =
             div [ id "caravela-header" ]
-                [ courseSearchField
+                [ caravelaImg
+                , courseSearchField
                 , availableCoursesSelect
                 , availableSemestersSelect
+                , githubImg
                 ]
 
         mainTable =
