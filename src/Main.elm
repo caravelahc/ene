@@ -20,7 +20,7 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, datalist, div, h1, h2, img, input, option, select, span, table, td, text, th, tr)
+import Html exposing (Html, a, datalist, div, h1, h2, img, input, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
@@ -316,20 +316,21 @@ view model =
                 (List.map (\s -> opt s) semesters)
 
         githubImg =
-            img
-                [ id "github-logo"
-                , src "./img/github.png"
-                , href "https://github.com/caravelahc/ene"
-                ]
-                []
+            a [ href "https://github.com/caravelahc/ene", id "github-logo" ]
+            [
+                img [ src "./img/github.png" ] []
+            ]
 
         caravelaHeader =
             div [ id "caravela-header" ]
-                [ caravelaImg
-                , courseSearchField
-                , availableCoursesSelect
-                , availableSemestersSelect
-                , githubImg
+                [
+                    div [ class "wrapper" ]
+                        [ caravelaImg
+                        , courseSearchField
+                        , availableCoursesSelect
+                        , availableSemestersSelect
+                        , githubImg
+                        ]
                 ]
 
         mainTable =

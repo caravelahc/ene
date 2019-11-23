@@ -10,11 +10,11 @@ $borderRadius: 3px;
 // Fontes do Google Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito:600|Open+Sans&display=swap');
 
-// Painel de filtros
 body {
   font-family: 'Open Sans', sans-serif;
   color: $colorText;
 
+  // Painel de filtros
   #caravela-header {
     position: sticky;
     top: 0px;
@@ -22,33 +22,53 @@ body {
     margin-bottom: 1em;
 
     background: $colorPrimary;
-    background-image: url('https://caravela.club/img/logo_horizontal.png');
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    padding: 1em;
 
-    text-align: right;
+    .wrapper {
+      display: flex;
 
-    input, select {
-      text-transform: uppercase;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
+      padding: 1em;
 
-      color: $colorDisabled;
-      background: $colorBackground;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      text-align: center;
 
-      border: 1px solid $colorPrimaryDark;
-      border-radius: $borderRadius;
-      padding: 0.5em 1em;
-      margin-right: 1em;
+      img {
+        height: 100%;
+      }
 
-      transition: all 0.2s ease;
+      #caravela-logo {
+        height: 4em;
+        margin-right: 2em;
+      }
 
-      &:hover, &:focus, &:active {
-        color: $colorPrimaryDark;
-        border-color: $colorPrimaryDark;
-        background: #FFFFFF;
+      #github-logo {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        height: 100%;
+      }
+
+      input, select {
+        text-transform: uppercase;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+
+        color: $colorDisabled;
+        background: $colorBackground;
+
+        border: 1px solid $colorPrimaryDark;
+        border-radius: $borderRadius;
+        padding: 0.5em 1em;
+        margin-right: 1em;
+
+        transition: all 0.2s ease;
+
+        &:hover, &:focus, &:active {
+          color: $colorPrimaryDark;
+          border-color: $colorPrimaryDark;
+          background: #FFFFFF;
+        }
       }
     }
   }
