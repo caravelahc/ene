@@ -127,8 +127,6 @@ body {
   }
 }
 
-// Modal styles
-
 .modal {
   position: fixed;
   z-index: 1;
@@ -138,27 +136,32 @@ body {
   height: 100%;
   overflow: auto;
   background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+  .modal-content {
+    background: #fefefe;
+    margin: 10vh auto;
+    width: 80%;
+    max-width: 100vh;
 
-.close-modal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    padding: 1em 2em;
 
-.close-modal:hover,
-.close-modal:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    border-radius: 0.35em;
+    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }
