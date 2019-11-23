@@ -24,4 +24,5 @@ DEPLOY_USERNAME|GitHub username for the deploy commit.
 DEPLOY_EMAIL|GitHub account email for the deploy commit
 
 ### Thanks
-[@tarcisioe](https://github.com/tarcisioe/) for the `convert.sh` script
+- [@matheusmk3](https://github.com/MatheusMK3) for the CSS files
+- [@tarcisioe](https://github.com/tarcisioe/) for the `convert.sh` script

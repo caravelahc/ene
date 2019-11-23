@@ -4,9 +4,11 @@ module Data exposing
     , ClassCourse
     , Course
     , CourseCode
+    , CourseName
     , Semester
     , availableCourses
     , classToChartTupleArray
+    , classToString
     , courseToString
     , defaultCourse
     , findClassByCode
@@ -68,6 +70,10 @@ type alias ClassCourse =
     String
 
 
+type alias CourseName =
+    String
+
+
 type alias Class =
     -- SP - Sufficient Presence
     -- IP - Insufficient Presence
@@ -78,7 +84,7 @@ type alias Class =
     , departmentName : String
     , classCourse : ClassCourse
     , courseCode : CourseCode
-    , courseName : String
+    , courseName : CourseName
     , credits : Int
     , grades100 : Int
     , grades95to90 : Int
@@ -98,6 +104,11 @@ type alias Class =
     , disapprovedSP : Int
     , disapprovedIP : Int
     }
+
+
+classToString : Class -> String
+classToString c =
+    c.courseName
 
 
 findCourseByCode : String -> List Course -> Maybe Course

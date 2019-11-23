@@ -8,8 +8,10 @@ import Data
         , ClassCourse
         , Course
         , CourseCode
+        , CourseName
         , availableCourses
         , classToChartTupleArray
+        , classToString
         , courseToString
         , defaultCourse
         , findClassByCode
@@ -18,8 +20,8 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, div, h1, h2, option, select, span, table, td, text, th, tr)
-import Html.Attributes exposing (class, id, value)
+import Html exposing (Html, datalist, div, h1, h2, img, input, option, select, span, table, td, text, th, tr)
+import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Utils exposing (errorToString)
@@ -39,6 +41,7 @@ type alias Model =
 type Msg
     = SelectCourse String
     | SelectSemester String
+    | ChangeCourseQuery CourseName
     | Order String
     | ToggleGradePopup ClassCourse CourseCode
     | CSV CsvResponse
@@ -93,6 +96,20 @@ update msg model =
             , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code semester)
             )
 
+        ChangeCourseQuery queryName ->
+            case
+                List.head (List.filter (\c -> queryName == c.courseName) (getClassList model))
+            of
+                Just course ->
+                    ( { model | classList = Just [ course ] }, Cmd.none )
+
+                Nothing ->
+                    -- Reset search
+                    ( model
+                    , Cmd.map CSV
+                        (Requests.fetchCourseSemesterCSV model.selectedCourse.code (lastSemesterFromCourse model.selectedCourse))
+                    )
+
         Order str ->
             case str of
                 "classCourse" ->
@@ -119,7 +136,7 @@ update msg model =
         ToggleGradePopup classCourse classCourseCode ->
             ( { model
                 | gradePopupOpen = not model.gradePopupOpen
-                , selectedClass = findClassByCode classCourse classCourseCode (Maybe.withDefault [] model.classList)
+                , selectedClass = findClassByCode classCourse classCourseCode (getClassList model)
               }
             , Cmd.none
             )
@@ -158,6 +175,11 @@ errorStr err =
 
         Nothing ->
             ""
+
+
+getClassList : Model -> List Class
+getClassList model =
+    Maybe.withDefault [] model.classList
 
 
 orderClassListBy : Maybe (List Class) -> (Class -> comparable) -> Maybe (List Class)
@@ -230,7 +252,7 @@ view model =
             option [ value s ] [ text s ]
 
         errorHeader =
-            if List.isEmpty (Maybe.withDefault [] model.classList) then
+            if List.isEmpty (getClassList model) then
                 h2 [] [ text (errorStr model.csvString) ]
 
             else
@@ -247,11 +269,30 @@ view model =
                 (Maybe.withDefault [ placeholderClass ] model.classList)
 
         statusText =
-            if List.isEmpty (Maybe.withDefault [] model.classList) then
+            if List.isEmpty (getClassList model) then
                 "Fetching CSV data..."
 
             else
                 ""
+
+        caravelaImg =
+            img
+                [ id "caravela-logo"
+                , src "./img/logo_horizontal.png"
+                , href "https://caravela.club"
+                ]
+                []
+
+        courseSearchField =
+            input
+                [ id "search"
+                , list "courses"
+                , placeholder "Digite o nome da disciplina"
+                , onInput ChangeCourseQuery
+                ]
+                [ datalist [ id "courses" ]
+                    (List.map (opt << classToString) (getClassList model))
+                ]
 
         availableCoursesSelect =
             let
@@ -274,14 +315,30 @@ view model =
                 [ onInput SelectSemester ]
                 (List.map (\s -> opt s) semesters)
 
+        githubImg =
+            img
+                [ id "github-logo"
+                , src "./img/github.png"
+                , href "https://github.com/caravelahc/ene"
+                ]
+                []
+
+        caravelaHeader =
+            div [ id "caravela-header" ]
+                [ caravelaImg
+                , courseSearchField
+                , availableCoursesSelect
+                , availableSemestersSelect
+                , githubImg
+                ]
+
         mainTable =
             table [] (dataHeader :: classesRows)
     in
     div []
         [ errorHeader
-        , div [] [ text "Work in progress \\(•◡•)/" ]
-        , div [] [ text statusText ]
-        , div [ id "filterPanel" ] [ availableCoursesSelect, availableSemestersSelect ]
+        , div [ id "status-text " ] [ text statusText ]
+        , caravelaHeader
         , div [] [ mainTable ]
         , if model.gradePopupOpen then
             renderGradesModal model
