@@ -1,4 +1,4 @@
-image: barichello/elm:sass
+image: barichello/elm:ene
 
 stages:
   - check
@@ -14,6 +14,7 @@ build:
   script:
     - sass styles/main.scss styles/main.css
     - elm make src/Main.elm --output=main.js --optimize
+    - uglifyjs main.js --compress sequences=true,conditionals=true,booleans=true --mangle --output main.js
   artifacts:
     paths:
       - styles/main.css
