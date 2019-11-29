@@ -20,7 +20,7 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, datalist, div, h1, h2, img, input, option, select, span, table, td, text, th, tr)
+import Html exposing (Html, a, datalist, div, h2, h3, img, input, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
@@ -237,8 +237,8 @@ renderGradesModal model =
     div [ id "modal", class "modal", onClick (ToggleGradePopup "" "") ]
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
-            , h1 [] [ text "Distribuição de notas" ]
-            , h2 [] [ text (currentClass.courseCode ++ s ++ currentClass.classCourse ++ s ++ currentClass.courseName) ]
+            , h2 [] [ text "Distribuição de notas" ]
+            , h3 [] [ text (currentClass.courseCode ++ s ++ currentClass.classCourse ++ s ++ currentClass.courseName) ]
             , div [] [ renderGradesChart (classToChartTupleArray model.selectedClass) ]
             ]
         ]
@@ -276,18 +276,14 @@ view model =
                 ""
 
         caravelaImg =
-            img
-                [ id "caravela-logo"
-                , src "./img/logo_horizontal.png"
-                , href "https://caravela.club"
-                ]
-                []
+            a [ href "https://caravela.club" ]
+                [ img [ id "caravela-logo", src "./img/logo_horizontal.png" ] [] ]
 
         courseSearchField =
             input
                 [ id "search"
                 , list "courses"
-                , placeholder "Digite o nome da disciplina"
+                , placeholder "Nome da disciplina"
                 , onInput ChangeCourseQuery
                 ]
                 [ datalist [ id "courses" ]
@@ -316,20 +312,19 @@ view model =
                 (List.map (\s -> opt s) semesters)
 
         githubImg =
-            img
-                [ id "github-logo"
-                , src "./img/github.png"
-                , href "https://github.com/caravelahc/ene"
+            a [ href "https://github.com/caravelahc/ene" ]
+                [ img [ id "github-logo", src "./img/github.png" ] []
                 ]
-                []
 
         caravelaHeader =
             div [ id "caravela-header" ]
-                [ caravelaImg
-                , courseSearchField
-                , availableCoursesSelect
-                , availableSemestersSelect
-                , githubImg
+                [ div [ class "wrapper" ]
+                    [ caravelaImg
+                    , courseSearchField
+                    , availableCoursesSelect
+                    , availableSemestersSelect
+                    , githubImg
+                    ]
                 ]
 
         mainTable =
