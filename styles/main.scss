@@ -18,35 +18,29 @@ body {
   #caravela-header {
     position: sticky;
     top: 0px;
-
     margin-bottom: 1em;
-
     background: $colorPrimary;
 
     .wrapper {
       display: flex;
-
       padding: 1em;
-
       align-items: center;
       align-content: center;
       justify-content: center;
       text-align: center;
 
-      img {
-        height: 100%;
-      }
-
       #caravela-logo {
-        height: 4em;
+        height: 4.3em;
         margin-right: 2em;
       }
 
       #github-logo {
-        position: absolute;
+        position: sticky;
+        margin-right: 2em;
+        margin-left: 1em;
         top: 0px;
         right: 0px;
-        height: 100%;
+        height: 3em;
       }
 
       input, select {
@@ -77,6 +71,7 @@ body {
     border-collapse: collapse;
     width: calc(100% - 2em);
     margin: 0em 1em;
+    cursor: pointer;
 
     tr {
       color: $colorDisabled;
@@ -142,7 +137,7 @@ body {
   .modal-content {
     background: #fefefe;
     margin: 10vh auto;
-    width: 80%;
+    width: 100%;
     max-width: 100vh;
 
     padding: 1em 2em;
