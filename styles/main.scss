@@ -14,7 +14,6 @@ body {
   font-family: 'Open Sans', sans-serif;
   color: $colorText;
 
-  // Painel de filtros
   #caravela-header {
     position: sticky;
     top: 0px;
@@ -23,7 +22,6 @@ body {
 
     .wrapper {
       display: flex;
-      padding: 1em;
       align-items: center;
       align-content: center;
       justify-content: center;
