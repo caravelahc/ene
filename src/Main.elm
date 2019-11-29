@@ -313,8 +313,7 @@ view model =
 
         githubImg =
             a [ href "https://github.com/caravelahc/ene" ]
-                [ img [ id "github-logo", src "./img/github.png" ] []
-                ]
+                [ img [ id "github-logo", src "./img/github.png" ] [] ]
 
         caravelaHeader =
             div [ id "caravela-header" ]
