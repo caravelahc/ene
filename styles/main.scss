@@ -10,45 +10,59 @@ $borderRadius: 3px;
 // Fontes do Google Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito:600|Open+Sans&display=swap');
 
-// Painel de filtros
 body {
   font-family: 'Open Sans', sans-serif;
   color: $colorText;
 
+  // Painel de filtros
   #caravela-header {
     position: sticky;
     top: 0px;
-
     margin-bottom: 1em;
-
     background: $colorPrimary;
-    background-image: url('https://caravela.club/img/logo_horizontal.png');
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    padding: 1em;
 
-    text-align: right;
+    .wrapper {
+      display: flex;
+      padding: 1em;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      text-align: center;
 
-    input, select, search {
-      text-transform: uppercase;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 600;
+      #caravela-logo {
+        height: 4.3em;
+        margin-right: 2em;
+      }
 
-      color: $colorDisabled;
-      background: $colorBackground;
+      #github-logo {
+        position: sticky;
+        margin-right: 2em;
+        margin-left: 1em;
+        top: 0px;
+        right: 0px;
+        height: 3em;
+      }
 
-      border: 1px solid $colorPrimaryDark;
-      border-radius: $borderRadius;
-      padding: 0.5em 1em;
-      margin-right: 1em;
+      input, select {
+        text-transform: uppercase;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
 
-      transition: all 0.2s ease;
+        color: $colorDisabled;
+        background: $colorBackground;
 
-      &:hover, &:focus, &:active {
-        color: $colorPrimaryDark;
-        border-color: $colorPrimaryDark;
-        background: #FFFFFF;
+        border: 1px solid $colorPrimaryDark;
+        border-radius: $borderRadius;
+        padding: 0.5em 1em;
+        margin-right: 1em;
+
+        transition: all 0.2s ease;
+
+        &:hover, &:focus, &:active {
+          color: $colorPrimaryDark;
+          border-color: $colorPrimaryDark;
+          background: #FFFFFF;
+        }
       }
     }
   }
@@ -57,6 +71,7 @@ body {
     border-collapse: collapse;
     width: calc(100% - 2em);
     margin: 0em 1em;
+    cursor: pointer;
 
     tr {
       color: $colorDisabled;
@@ -107,8 +122,6 @@ body {
   }
 }
 
-// Modal styles
-
 .modal {
   position: fixed;
   z-index: 1;
@@ -118,27 +131,32 @@ body {
   height: 100%;
   overflow: auto;
   background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
+  .modal-content {
+    background: #fefefe;
+    margin: 10vh auto;
+    width: 100%;
+    max-width: 100vh;
 
-.close-modal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    padding: 1em 2em;
 
-.close-modal:hover,
-.close-modal:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    border-radius: 0.35em;
+    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 }

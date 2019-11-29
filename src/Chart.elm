@@ -12,12 +12,12 @@ import TypedSvg.Types exposing (AnchorAlignment(..), Transform(..))
 
 w : Float
 w =
-    900
+    500
 
 
 h : Float
 h =
-    450
+    250
 
 
 padding : Float
@@ -45,7 +45,11 @@ xAxis data =
 
 yScale : ContinuousScale Float
 yScale =
-    Scale.linear ( h - 2 * padding, 0 ) ( 0, 25 )
+    let
+        maxY =
+            20
+    in
+    Scale.linear ( h - 2 * padding, 0 ) ( 0, maxY )
 
 
 yAxis : Svg msg
@@ -83,9 +87,9 @@ renderGradesChart : List ChartTuple -> Svg msg
 renderGradesChart data =
     svg [ viewBox 0 0 w h ]
         [ style [] [ text """
-            .column rect { fill: rgba(118, 214, 78, 0.75); }
+            .column rect { fill: rgba(0, 59, 111, 0.75); }
             .column text { display: none; }
-            .column:hover rect { fill: rgb(148, 244, 108); }
+            .column:hover rect { fill: rgba(0, 59, 111, 1); }
             .column:hover text { display: block; }
           """ ]
         , g [ transform [ Translate (padding - 1) (h - padding) ] ]
