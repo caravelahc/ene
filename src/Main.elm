@@ -15,7 +15,7 @@ import Data
         , courseToString
         , defaultCourse
         , findClassByCode
-        , findCourseByCode
+        , findCourse
         , lastSemesterFromCourse
         , placeholderClass
         )
@@ -81,7 +81,7 @@ update msg model =
         SelectCourse course ->
             ( { model
                 | selectedCourse =
-                    case findCourseByCode course availableCourses of
+                    case findCourse course availableCourses of
                         Just c ->
                             c
 

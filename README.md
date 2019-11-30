@@ -1,6 +1,6 @@
 # ENE (ENE's Not Excel)
 
-A webpage to serve approval/failure rate and notes of UFSC's classes from CSV files.
+Webpage to serve UFSC's classes approval/failure rate from CSV files.
 
 ## Setup
 1. Install elm by using the [official guide](https://guide.elm-lang.org/install.html).
@@ -10,8 +10,11 @@ or use `elm-reactor` and visit `http://localhost:8000`
 
 Due to external CSS i recommend using [`elm-live`](https://github.com/wking-io/elm-live) during development.
 
-## Data
-Data is obtained from a government website called [e-SIC](https://esic.cgu.gov.br/).
+## Maintaining this website
+1. Request data in CSV format from [e-SIC](https://esic.cgu.gov.br/).
+2. Run `convert.sh` in the obtained CSV files (do not run twice).
+3. Commit them to the csv folder.
+4. If you are adding a new course, create a folder (`ene/csv/<course code>`) and update the `availableCourses` function in [`Data.elm`](https://github.com/caravelahc/ene/blob/master/src/Data.elm).
 
 ## GitLab Deploy
 This project uses GitLab CI to deploy to GitHub Pages, the following variables need to be set in the [CI configuration panel](https://gitlab.com/caravelahc/ene/-/settings/ci_cd).
