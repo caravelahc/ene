@@ -112,11 +112,20 @@ update msg model =
 
         Order str ->
             case str of
+                "center" ->
+                    ( { model | classList = orderClassListBy model.classList .center }, Cmd.none )
+
+                "department" ->
+                    ( { model | classList = orderClassListBy model.classList .department }, Cmd.none )
+
                 "classCourse" ->
                     ( { model | classList = orderClassListBy model.classList .classCourse }, Cmd.none )
 
                 "courseCode" ->
                     ( { model | classList = orderClassListBy model.classList .courseCode }, Cmd.none )
+
+                "courseName" ->
+                    ( { model | classList = orderClassListBy model.classList .courseName }, Cmd.none )
 
                 "studentsWithGrades" ->
                     ( { model | classList = orderClassListBy model.classList .studentsWithGrades }, Cmd.none )
@@ -198,11 +207,11 @@ orderClassListBy l sortKey =
 dataHeader : Html Msg
 dataHeader =
     tr []
-        [ th [] [ text "Centro" ]
-        , th [] [ text "Departamento" ]
+        [ th [ onClick (Order "center") ] [ text "Centro" ]
+        , th [ onClick (Order "department") ] [ text "Departamento" ]
         , th [ onClick (Order "classCourse") ] [ text "Curso" ]
         , th [ onClick (Order "courseCode") ] [ text "Disciplina" ]
-        , th [] [ text "Nome Disciplina" ]
+        , th [ onClick (Order "courseName") ] [ text "Nome Disciplina" ]
         , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos Total" ]
         , th [ onClick (Order "approved") ] [ text "Aprovados" ]
         , th [ onClick (Order "disapprovedSP") ] [ text "Reprovados FS" ]
