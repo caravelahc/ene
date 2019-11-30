@@ -107,13 +107,7 @@ body {
       color: $colorText;
       background: $colorBackground;
 
-      // Mostra cursor de resize nestas colunas
-      th:nth-child(3),
-      th:nth-child(4),
-      th:nth-child(6),
-      th:nth-child(7),
-      th:nth-child(8),
-      th:nth-child(9) {
+      th {
         cursor: ns-resize;
       }
     }
