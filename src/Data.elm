@@ -12,14 +12,14 @@ module Data exposing
     , courseToString
     , defaultCourse
     , findClassByCode
-    , findCourseByCode
+    , findCourse
     , lastSemesterFromCourse
     , placeholderClass
     , semesterString
     )
 
 import List.Extra exposing (find)
-import Utils exposing (semesterList)
+import Utils exposing (semesterRangeList)
 
 
 type alias Course =
@@ -38,13 +38,16 @@ defaultCourse : Course
 defaultCourse =
     { code = "208"
     , name = "CIÊNCIAS DA COMPUTAÇÃO"
-    , availableSemesters = List.drop 1 (semesterList 2009 2019) -- drop inexistent 20192
+    , availableSemesters = List.drop 1 (semesterRangeList 2009 2019) -- drop inexistent 20192
     }
 
 
 availableCourses : List Course
 availableCourses =
     [ defaultCourse
+
+    -- new course example:
+    -- , { code = "238", name = "SISTEMAS DA INFORMAÇÃO", availableSemesters = semesterRangeList 2009 2019 }
     ]
 
 
@@ -111,8 +114,8 @@ classToString c =
     c.courseName
 
 
-findCourseByCode : String -> List Course -> Maybe Course
-findCourseByCode courseCode list =
+findCourse : String -> List Course -> Maybe Course
+findCourse courseCode list =
     find (\course -> course.code == courseCode) list
 
 
@@ -122,7 +125,7 @@ findClassByCode classCourse classCourseCode list =
 
 
 type alias ChartTuple =
-    -- Tuple of grade group (0 to 10) and number of students in that group
+    -- Tuple of grade group (-1 to 10) and number of students in that group. (-1 being IP)
     ( Int, Int )
 
 

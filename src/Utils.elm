@@ -1,11 +1,11 @@
-module Utils exposing (errorToString, semesterList, stringTrimToInt)
+module Utils exposing (errorToString, semesterRangeList, stringTrimToInt)
 
 import Http exposing (Error(..))
 import List.Extra exposing (cartesianProduct, getAt)
 
 
-concatLists : List Int -> String
-concatLists list =
+concatFirstTwoElements : List Int -> String
+concatFirstTwoElements list =
     let
         first =
             Maybe.withDefault 0 (getAt 0 list)
@@ -16,8 +16,8 @@ concatLists list =
     String.fromInt first ++ String.fromInt second
 
 
-semesterList : Int -> Int -> List String
-semesterList start end =
+semesterRangeList : Int -> Int -> List String
+semesterRangeList start end =
     let
         years =
             List.range start end
@@ -28,7 +28,7 @@ semesterList start end =
         cartesian =
             cartesianProduct [ years, semesters ]
     in
-    List.map concatLists cartesian
+    List.map concatFirstTwoElements cartesian
         |> List.reverse
 
 
