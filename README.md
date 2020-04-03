@@ -8,7 +8,9 @@ Webpage to serve UFSC's classes approval/failure rate from CSV files.
 `elm-make Main.elm --output index.html --debug`
 or use `elm-reactor` and visit `http://localhost:8000`
 
-Due to external CSS i recommend using [`elm-live`](https://github.com/wking-io/elm-live) during development.
+Due to external CSS i recommend using [`elm-live`](https://github.com/wking-io/elm-live) during development with the following input:
+`elm-live src/Main.elm --start-page=index.html -- --output=main.js --debug`<br>
+and `sass styles/main.scss styles/main.css --watch` if editing the CSS.
 
 ## Maintaining this website
 1. Request data in CSV format from [e-SIC](https://esic.cgu.gov.br/).

@@ -79,16 +79,19 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectCourse course ->
-            ( { model
-                | selectedCourse =
-                    case findCourse course availableCourses of
+            let
+                courseRecord = case findCourse course availableCourses of
                         Just c ->
                             c
 
                         Nothing ->
                             defaultCourse
+            in
+
+            ( { model
+                | selectedCourse = courseRecord
               }
-            , Cmd.map CSV (fetchCourseSemesterCSV model.selectedCourse.code model.selectedSemester)
+            , Cmd.map CSV (fetchCourseSemesterCSV courseRecord.code model.selectedSemester)
             )
 
         SelectSemester semester ->
