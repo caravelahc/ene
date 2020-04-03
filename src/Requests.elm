@@ -28,10 +28,12 @@ fetchCourseSemesterCSV courseCode semester =
 
 stripCSVParameterString : String -> String
 stripCSVParameterString str =
-    -- Strip the first line of parameter data that is present in every CSV file (105 char length)
+    -- Strip the first line of parameter data that is present in every CSV file
     let
+        removeLength = List.head ( String.indices "\n" str)
+
         removeString =
-            String.slice 0 105 str
+            String.slice 0 (Maybe.withDefault 105 removeLength) str
 
         removedFirstLine =
             String.replace removeString "" str
