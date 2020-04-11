@@ -50,14 +50,14 @@ yScale : ContinuousScale Float
 yScale =
     let
         maxY =
-            20
+            30
     in
     Scale.linear ( h - 2 * padding, 0 ) ( 0, maxY )
 
 
 yAxis : Svg msg
 yAxis =
-    Axis.left [ Axis.tickCount 10 ] yScale
+    Axis.left [ Axis.tickCount 7 ] yScale
 
 
 column : BandScale Int -> ChartTuple -> Svg msg
