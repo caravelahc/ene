@@ -35,7 +35,10 @@ xScale model =
 
 xAxisFormat : Int -> String
 xAxisFormat n =
-    String.fromInt n
+    if n == -1 then
+        "FI"
+    else
+        String.fromInt n
 
 
 xAxis : List ChartTuple -> Svg msg
