@@ -1,7 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Chart exposing (renderGradesChart)
+import BarGraph exposing (renderGradesChart)
 import Data
     exposing
         ( Class

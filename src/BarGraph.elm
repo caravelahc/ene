@@ -1,4 +1,4 @@
-module Chart exposing (renderGradesChart)
+module BarGraph exposing (renderGradesChart)
 
 import Axis
 import Data exposing (ChartTuple)
