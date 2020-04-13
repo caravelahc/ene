@@ -275,10 +275,13 @@ view model =
                     Nothing ->
                         span [] []
 
+        classes = Maybe.withDefault [ placeholderClass ] model.classList
+
+        filteredClasses = List.filter (\class -> class.studentsWithGrades > 0) classes
+
         -- View --
         classesRows =
-            List.map dataRow
-                (Maybe.withDefault [ placeholderClass ] model.classList)
+            List.map dataRow filteredClasses
 
         statusText =
             if List.isEmpty (getClassList model) then
