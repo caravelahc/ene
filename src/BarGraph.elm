@@ -37,6 +37,7 @@ xAxisFormat : Int -> String
 xAxisFormat n =
     if n == -1 then
         "FI"
+
     else
         String.fromInt n
 

@@ -1,7 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Browser
 import BarGraph exposing (renderGradesChart)
+import Browser
 import Data
     exposing
         ( Class
@@ -80,14 +80,14 @@ update msg model =
     case msg of
         SelectCourse course ->
             let
-                courseRecord = case findCourse course availableCourses of
+                courseRecord =
+                    case findCourse course availableCourses of
                         Just c ->
                             c
 
                         Nothing ->
                             defaultCourse
             in
-
             ( { model
                 | selectedCourse = courseRecord
               }
@@ -275,9 +275,11 @@ view model =
                     Nothing ->
                         span [] []
 
-        classes = Maybe.withDefault [ placeholderClass ] model.classList
+        classes =
+            Maybe.withDefault [ placeholderClass ] model.classList
 
-        filteredClasses = List.filter (\class -> class.studentsWithGrades > 0) classes
+        filteredClasses =
+            List.filter (\class -> class.studentsWithGrades > 0) classes
 
         -- View --
         classesRows =

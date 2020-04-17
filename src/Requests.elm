@@ -30,7 +30,8 @@ stripCSVParameterString : String -> String
 stripCSVParameterString str =
     -- Strip the first line of parameter data that is present in every CSV file
     let
-        removeLength = List.head ( String.indices "\n" str)
+        removeLength =
+            List.head (String.indices "\n" str)
 
         removeString =
             String.slice 0 (Maybe.withDefault 105 removeLength) str
