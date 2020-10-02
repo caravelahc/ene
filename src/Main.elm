@@ -136,11 +136,11 @@ update msg model =
                 "approved" ->
                     ( { model | classList = orderClassListBy model.classList .approved }, Cmd.none )
 
-                "disapprovedSP" ->
-                    ( { model | classList = orderClassListBy model.classList .disapprovedSP }, Cmd.none )
+                "failedSP" ->
+                    ( { model | classList = orderClassListBy model.classList .failedSP }, Cmd.none )
 
-                "disapprovedIP" ->
-                    ( { model | classList = orderClassListBy model.classList .disapprovedIP }, Cmd.none )
+                "failedIP" ->
+                    ( { model | classList = orderClassListBy model.classList .failedIP }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -215,10 +215,10 @@ dataHeader =
         , th [ onClick (Order "classCourse") ] [ text "Curso" ]
         , th [ onClick (Order "courseCode") ] [ text "Disciplina" ]
         , th [ onClick (Order "courseName") ] [ text "Nome Disciplina" ]
-        , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos Total" ]
+        , th [ onClick (Order "studentsWithGrades") ] [ text "Alunos" ]
         , th [ onClick (Order "approved") ] [ text "Aprovados" ]
-        , th [ onClick (Order "disapprovedSP") ] [ text "Reprovados FS" ]
-        , th [ onClick (Order "disapprovedIP") ] [ text "Reprovados FI" ]
+        , th [ onClick (Order "failedSP") ] [ text "Reprovados FS" ]
+        , th [ onClick (Order "failedIP") ] [ text "Reprovados FI" ]
         ]
 
 
@@ -232,8 +232,8 @@ dataRow class =
         , td [] [ text class.courseName ]
         , td [] [ text (String.fromInt class.studentsWithGrades) ]
         , td [] [ text (String.fromInt class.approved) ]
-        , td [] [ text (String.fromInt class.disapprovedSP) ]
-        , td [] [ text (String.fromInt class.disapprovedIP) ]
+        , td [] [ text (String.fromInt class.failedSP) ]
+        , td [] [ text (String.fromInt class.failedIP) ]
         ]
 
 

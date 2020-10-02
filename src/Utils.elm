@@ -1,4 +1,9 @@
-module Utils exposing (errorToString, semesterRangeList, stringTrimToInt)
+module Utils exposing
+    ( errorToString
+    , processChartData
+    , semesterRangeList
+    , stringTrimToInt
+    )
 
 import Http exposing (Error(..))
 import List.Extra exposing (cartesianProduct, getAt)
@@ -37,6 +42,22 @@ stringTrimToInt str =
     str
         |> String.trim
         |> String.toInt
+
+
+processChartData : List ( String, Int ) -> List Float
+processChartData l =
+    List.map
+        (\el ->
+            let
+                f =
+                    Tuple.first el
+
+                s =
+                    Tuple.second el
+            in
+            ( f, toFloat s )
+        )
+        l
 
 
 errorToString : Http.Error -> String

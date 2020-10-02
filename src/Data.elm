@@ -102,8 +102,8 @@ type alias Class =
     , studentsWithGrades : Int
     , mentionOne : Int
     , approved : Int
-    , disapprovedSP : Int
-    , disapprovedIP : Int
+    , failedSP : Int
+    , failedIP : Int
     }
 
 
@@ -182,6 +182,6 @@ placeholderClass =
     , studentsWithGrades = pInt
     , mentionOne = pInt
     , approved = pInt
-    , disapprovedSP = pInt
-    , disapprovedIP = pInt
+    , failedSP = pInt
+    , failedIP = pInt
     }
