@@ -1,6 +1,7 @@
 .vscode/
 *.css.map
 *.css
+.sass-cache
 *.~lock.*
 *.code-workspace
 *.js

@@ -14,7 +14,7 @@
             "elm-community/list-extra": "8.2.2",
             "elm-community/typed-svg": "5.1.0",
             "ericgj/elm-csv-decode": "2.0.1",
-            "gampleman/elm-visualization": "2.0.1",
+            "gampleman/elm-visualization": "2.1.1",
             "lovasoa/elm-csv": "1.1.6"
         },
         "indirect": {
