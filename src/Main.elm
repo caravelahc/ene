@@ -251,7 +251,7 @@ renderGradesModal model =
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
             , h2 [] [ text ("UFSC - " ++ currentClass.classCourse) ]
-            , h3 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName) ]
+            , h3 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName ++ s ++ model.selectedSemester) ]
             , div []
                 [ renderGradesChart (classToChartTupleArray model.selectedClass)
                 , renderPieGraph [ currentClass.approved, currentClass.failedSP, currentClass.failedIP ]
