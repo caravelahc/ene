@@ -1,12 +1,30 @@
 module Utils exposing
-    ( errorToString
-    , processChartData
+    ( darkBlue
+    , errorToString
+    , lightBlue
+    , lightGrey
     , semesterRangeList
     , stringTrimToInt
     )
 
+import Color exposing (Color)
 import Http exposing (Error(..))
 import List.Extra exposing (cartesianProduct, getAt)
+
+
+darkBlue : Color
+darkBlue =
+    Color.rgb255 0 59 111
+
+
+lightBlue : Color
+lightBlue =
+    Color.rgb255 51 153 255
+
+
+lightGrey : Color
+lightGrey =
+    Color.rgb255 192 192 192
 
 
 concatFirstTwoElements : List Int -> String
@@ -42,22 +60,6 @@ stringTrimToInt str =
     str
         |> String.trim
         |> String.toInt
-
-
-processChartData : List ( String, Int ) -> List Float
-processChartData l =
-    List.map
-        (\el ->
-            let
-                f =
-                    Tuple.first el
-
-                s =
-                    Tuple.second el
-            in
-            ( f, toFloat s )
-        )
-        l
 
 
 errorToString : Http.Error -> String

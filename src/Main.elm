@@ -20,9 +20,10 @@ import Data
         , placeholderClass
         )
 import Decoder exposing (decodeCsv)
-import Html exposing (Html, a, datalist, div, h2, h3, img, input, option, select, span, table, td, text, th, tr)
+import Html exposing (Html, a, datalist, div, h2, h3, img, input, option, p, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
+import PieChart exposing (renderPieGraph)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
 import Utils exposing (errorToString)
 
@@ -249,9 +250,12 @@ renderGradesModal model =
     div [ id "modal", class "modal", onClick (ToggleGradePopup "" "") ]
         [ div [ class "modal-content" ]
             [ span [ class "close-modal" ] [ text "X" ]
-            , h3 [] [ text ("UFSC - " ++ currentClass.classCourse) ]
+            , h2 [] [ text ("UFSC - " ++ currentClass.classCourse) ]
             , h3 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName) ]
-            , div [] [ renderGradesChart (classToChartTupleArray model.selectedClass) ]
+            , div []
+                [ renderGradesChart (classToChartTupleArray model.selectedClass)
+                , renderPieGraph [ currentClass.approved, currentClass.failedSP, currentClass.failedIP ]
+                ]
             ]
         ]
 
