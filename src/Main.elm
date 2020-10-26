@@ -111,7 +111,7 @@ update msg model =
                     -- Reset search
                     ( model
                     , Cmd.map CSV
-                        (Requests.fetchCourseSemesterCSV model.selectedCourse.code (lastSemesterFromCourse model.selectedCourse))
+                        (Requests.fetchCourseSemesterCSV model.selectedCourse.code model.selectedSemester)
                     )
 
         Order str ->
