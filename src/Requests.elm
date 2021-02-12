@@ -16,6 +16,7 @@ type CsvResponse
 endpointUrl : List String -> List QueryParameter -> String
 endpointUrl endpoint =
     crossOrigin "https://ene.caravela.club/csv" endpoint
+    -- crossOrigin "http://localhost:8000/csv" endpoint -- debug
 
 
 fetchCourseSemesterCSV : String -> String -> Cmd CsvResponse
