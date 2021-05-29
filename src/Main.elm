@@ -117,31 +117,31 @@ update msg model =
         Order str ->
             case str of
                 "center" ->
-                    ( { model | classList = orderClassListBy model.classList .center }, Cmd.none )
+                    ( { model | classList = orderClassListBy .center model.classList }, Cmd.none )
 
                 "department" ->
-                    ( { model | classList = orderClassListBy model.classList .department }, Cmd.none )
+                    ( { model | classList = orderClassListBy .department model.classList }, Cmd.none )
 
                 "classCourse" ->
-                    ( { model | classList = orderClassListBy model.classList .classCourse }, Cmd.none )
+                    ( { model | classList = orderClassListBy .classCourse model.classList }, Cmd.none )
 
                 "courseCode" ->
-                    ( { model | classList = orderClassListBy model.classList .courseCode }, Cmd.none )
+                    ( { model | classList = orderClassListBy .courseCode model.classList }, Cmd.none )
 
                 "courseName" ->
-                    ( { model | classList = orderClassListBy model.classList .courseName }, Cmd.none )
+                    ( { model | classList = orderClassListBy .courseName model.classList }, Cmd.none )
 
                 "studentsWithGrades" ->
-                    ( { model | classList = orderClassListBy model.classList .studentsWithGrades }, Cmd.none )
+                    ( { model | classList = orderClassListBy .studentsWithGrades model.classList }, Cmd.none )
 
                 "approved" ->
-                    ( { model | classList = orderClassListBy model.classList .approved }, Cmd.none )
+                    ( { model | classList = orderClassListBy .approved model.classList }, Cmd.none )
 
                 "failedSP" ->
-                    ( { model | classList = orderClassListBy model.classList .failedSP }, Cmd.none )
+                    ( { model | classList = orderClassListBy .failedSP model.classList }, Cmd.none )
 
                 "failedIP" ->
-                    ( { model | classList = orderClassListBy model.classList .failedIP }, Cmd.none )
+                    ( { model | classList = orderClassListBy .failedIP model.classList }, Cmd.none )
 
                 _ ->
                     ( model, Cmd.none )
@@ -171,10 +171,14 @@ update msg model =
 
                         classes =
                             Result.toMaybe classesResult
+                                |> orderClassListBy .studentsWithGrades
+
+                        defaultOrderedClasses =
+                            List.reverse (Maybe.withDefault [] classes)
                     in
                     ( { model
                         | csvString = Just filteredResult
-                        , classList = classes
+                        , classList = Just defaultOrderedClasses
                       }
                     , Cmd.none
                     )
@@ -195,8 +199,8 @@ getClassList model =
     Maybe.withDefault [] model.classList
 
 
-orderClassListBy : Maybe (List Class) -> (Class -> comparable) -> Maybe (List Class)
-orderClassListBy l sortKey =
+orderClassListBy : (Class -> comparable) -> Maybe (List Class) -> Maybe (List Class)
+orderClassListBy sortKey l =
     let
         sortedList =
             List.sortBy sortKey (Maybe.withDefault [] l)
