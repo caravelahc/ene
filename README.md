@@ -13,7 +13,7 @@ Due to external CSS i recommend using [`elm-live`](https://github.com/wking-io/e
 and `sass styles/main.scss styles/main.css --watch` if editing the CSS.
 
 ## Maintaining this website
-1. Request data in CSV format from [e-SIC](https://esic.cgu.gov.br/).
+1. Request data in CSV format from [e-SIC](https://esic.cgu.gov.br/) or email `dae@contato.ufsc.br`.
 2. Run `convert.sh` in the obtained CSV files to convert them from `ISO-8859-1` to `UTF-8` (do not run twice on the same files, you can also use online tools for that).
 3. Commit them to the `csv` folder.
 4. If you are adding a new course, create a folder (`ene/csv/<course code>`) and update the `availableCourses` function in [`Data.elm`](https://github.com/caravelahc/ene/blob/99eb2ac861b53b3813ad58be8d3ac44701547a6f/src/Data.elm#L45).

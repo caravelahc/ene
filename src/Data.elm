@@ -38,14 +38,14 @@ defaultCourse : Course
 defaultCourse =
     { code = "208"
     , name = "CIÊNCIA DA COMPUTAÇÃO"
-    , availableSemesters = List.drop 1 (semesterRangeList 2009 2020)
+    , availableSemesters = semesterRangeList 2009 2020
     }
 
 
 availableCourses : List Course
 availableCourses =
     [ defaultCourse
-    , { code = "238", name = "SISTEMAS DA INFORMAÇÃO", availableSemesters = List.drop 1 (semesterRangeList 2009 2020) }
+    , { code = "238", name = "SISTEMAS DA INFORMAÇÃO", availableSemesters = semesterRangeList 2009 2020 }
     ]
 
 
