@@ -31,3 +31,6 @@ DEPLOY_EMAIL|GitHub account email for the deploy commit
 ### Contributors
 - [@matheusmk3](https://github.com/MatheusMK3) with the CSS files and styling.
 - [@tarcisioe](https://github.com/tarcisioe/) with the `convert.sh` script.
+
+### Qualidade dos dados
+Os semestres EAD podem ter uma quantidade de reprovações maiores devido às mudanças ocasionadas pela pandemia. Alunos podem cancelar a disciplina a qualquer momento durante os semestres à distância e estes casos não estão incluídos nos CSVs. Os casos de reprovações de 100% da turma nos semestres EAD vêm da menção P que não está incluída no sistema do CAGR Desktop e portanto é reportada como nota zero.
