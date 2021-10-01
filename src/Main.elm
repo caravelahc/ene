@@ -1,4 +1,4 @@
-module Main exposing (Model, Msg(..), init, main, update, view)
+port module Main exposing (Model, Msg(..), init, main, update, view)
 
 import BarGraph exposing (renderGradesChart)
 import Browser
@@ -46,6 +46,9 @@ type Msg
     | Order String
     | ToggleGradePopup ClassCourse CourseCode
     | CSV CsvResponse
+
+
+port sendSetPageQuery : String -> Cmd msg
 
 
 main : Program () Model Msg
@@ -147,11 +150,25 @@ update msg model =
                     ( model, Cmd.none )
 
         ToggleGradePopup classCourse classCourseCode ->
+            let
+                popupOpened =
+                    not model.gradePopupOpen
+
+                shareQueryString =
+                    if not popupOpened then
+                        ""
+
+                    else
+                        model.selectedCourse.code ++ "/" ++ model.selectedSemester ++ "/" ++ classCourseCode
+
+                cmd =
+                    sendSetPageQuery shareQueryString
+            in
             ( { model
                 | gradePopupOpen = not model.gradePopupOpen
                 , selectedClass = findClassByCode classCourse classCourseCode (getClassList model)
               }
-            , Cmd.none
+            , cmd
             )
 
         CSV response ->
