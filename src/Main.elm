@@ -23,9 +23,11 @@ import Decoder exposing (decodeCsv)
 import Html exposing (Html, a, datalist, div, h2, h3, img, input, option, select, span, table, td, text, th, tr)
 import Html.Attributes exposing (class, href, id, list, placeholder, src, value)
 import Html.Events exposing (onClick, onInput)
+import List.Extra
 import PieChart exposing (renderPieGraph)
 import Requests exposing (CsvResponse(..), fetchCourseSemesterCSV, stripCSVParameterString)
-import Utils exposing (errorToString)
+import Url
+import Utils exposing (defaultURL, errorToString)
 
 
 type alias Model =
@@ -36,6 +38,7 @@ type alias Model =
     , csvString : Maybe String
     , gradePopupOpen : Bool
     , classList : Maybe (List Class)
+    , shareQueryString : Maybe String
     }
 
 
@@ -46,9 +49,13 @@ type Msg
     | Order String
     | ToggleGradePopup ClassCourse CourseCode
     | CSV CsvResponse
+    | LoadClassFromQuery String
 
 
 port sendSetPageQuery : String -> Cmd msg
+
+
+port urlReceiver : (String -> msg) -> Sub msg
 
 
 main : Program () Model Msg
@@ -56,7 +63,7 @@ main =
     Browser.element
         { init = \() -> init
         , update = update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = subscriptions
         , view = view
         }
 
@@ -74,6 +81,7 @@ init =
       , csvString = Nothing
       , gradePopupOpen = False
       , classList = Nothing
+      , shareQueryString = Nothing
       }
     , Cmd.map CSV (Requests.fetchCourseSemesterCSV defaultCourse.code lastSemester)
     )
@@ -154,18 +162,26 @@ update msg model =
                 popupOpened =
                     not model.gradePopupOpen
 
-                shareQueryString =
+                shareQueryPath =
                     if not popupOpened then
                         ""
 
                     else
                         model.selectedCourse.code ++ "/" ++ model.selectedSemester ++ "/" ++ classCourseCode
 
+                shareQueryString =
+                    if shareQueryPath == "" then
+                        Nothing
+
+                    else
+                        Just shareQueryPath
+
                 cmd =
-                    sendSetPageQuery shareQueryString
+                    sendSetPageQuery shareQueryPath
             in
             ( { model
                 | gradePopupOpen = not model.gradePopupOpen
+                , shareQueryString = shareQueryString
                 , selectedClass = findClassByCode classCourse classCourseCode (getClassList model)
               }
             , cmd
@@ -192,13 +208,72 @@ update msg model =
 
                         defaultOrderedClasses =
                             List.reverse (Maybe.withDefault [] classes)
+
+                        -- Check query string logic
+                        splitQuery =
+                            String.split "/" (Maybe.withDefault "" model.shareQueryString)
+
+                        availableQuery =
+                            List.length splitQuery > 1
+
+                        courseCode =
+                            List.Extra.getAt 0 splitQuery
+                                |> Maybe.withDefault defaultCourse.code
+
+                        course =
+                            findCourse courseCode availableCourses
+                                |> Maybe.withDefault defaultCourse
+
+                        semester =
+                            List.Extra.getAt 1 splitQuery
+                                |> Maybe.withDefault (lastSemesterFromCourse defaultCourse)
+
+                        classCourseCode =
+                            List.Extra.getAt 2 splitQuery
+                                |> Maybe.withDefault "INE5401"
+
+                        class =
+                            findClassByCode course.name classCourseCode defaultOrderedClasses
+
+                        updatedModel =
+                            if availableQuery then
+                                { model
+                                    | csvString = Just filteredResult
+                                    , classList = Just defaultOrderedClasses
+                                    , selectedCourse = course
+                                    , selectedSemester = semester
+                                    , selectedClass = class
+                                    , gradePopupOpen = True
+                                }
+
+                            else
+                                { model
+                                    | csvString = Just filteredResult
+                                    , classList = Just defaultOrderedClasses
+                                }
                     in
-                    ( { model
-                        | csvString = Just filteredResult
-                        , classList = Just defaultOrderedClasses
-                      }
+                    ( updatedModel
                     , Cmd.none
                     )
+
+        LoadClassFromQuery url ->
+            let
+                sharePrefixLength =
+                    6
+
+                query =
+                    Url.fromString url
+                        |> Maybe.withDefault defaultURL
+                        |> .query
+                        |> Maybe.withDefault ""
+                        |> String.dropLeft sharePrefixLength
+            in
+            ( { model | shareQueryString = Just query }, Cmd.none )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    urlReceiver LoadClassFromQuery
 
 
 errorStr : Maybe String -> String
