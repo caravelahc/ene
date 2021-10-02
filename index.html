@@ -20,7 +20,7 @@
     <div id="elm"></div>
     <script>
         function startPorts(elm) {
-            // elm.ports.urlReceiver.send(window.location.href)
+            elm.ports.urlReceiver.send(window.location.href)
             elm.ports.sendSetPageQuery.subscribe((query) => {
                 if (query !== "") {
                     history.pushState({}, "", `?share=${query}`)

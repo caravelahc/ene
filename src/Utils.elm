@@ -1,5 +1,6 @@
 module Utils exposing
     ( darkBlue
+    , defaultURL
     , errorToString
     , lightBlue
     , lightGrey
@@ -10,6 +11,7 @@ module Utils exposing
 import Color exposing (Color)
 import Http exposing (Error(..))
 import List.Extra exposing (cartesianProduct, getAt)
+import Url exposing (Protocol(..), Url)
 
 
 darkBlue : Color
@@ -79,3 +81,14 @@ errorToString err =
 
         BadUrl url ->
             "Malformed url: " ++ url
+
+
+defaultURL : Url
+defaultURL =
+    { protocol = Https
+    , host = "ene.caravela.club"
+    , port_ = Nothing
+    , path = "/"
+    , query = Nothing
+    , fragment = Nothing
+    }

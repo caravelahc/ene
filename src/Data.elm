@@ -37,7 +37,7 @@ courseToString course =
 defaultCourse : Course
 defaultCourse =
     { code = "208"
-    , name = "CIÊNCIA DA COMPUTAÇÃO"
+    , name = "CIÊNCIAS DA COMPUTAÇÃO"
     , availableSemesters = semesterRangeList 2009 2020
     }
 
