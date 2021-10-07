@@ -138,15 +138,30 @@ body {
     box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.35);
   }
 
-  .close-modal {
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 50px;
+  }
+
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .share-button {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
   }
 
-  .close-modal:hover,
-  .close-modal:focus {
+  .share-button:hover,
+  .share-button:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
