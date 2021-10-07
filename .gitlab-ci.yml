@@ -31,6 +31,6 @@ deploy:
     - git config user.email ${DEPLOY_EMAIL}
     - git remote add github ${REMOTE_URL}
     - git checkout --orphan tmp
-    - git reset && git add -f csv/ styles/ img/ main.js index.html favicon.ico CNAME
+    - git reset && git add -f csv/ styles/ img/ *.js index.html favicon.ico CNAME
     - 'git commit -m "[ci-skip] Deploy GitHub Pages ${CI_JOB_NAME}-${CI_COMMIT_SHORT_SHA}" -m "Deploy from GitLab pipeline ${CI_COMMIT_SHA}"'
     - git push github tmp:gh-pages --force

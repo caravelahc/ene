@@ -50,9 +50,13 @@ type Msg
     | ToggleGradePopup ClassCourse CourseCode
     | CSV CsvResponse
     | LoadClassFromQuery String
+    | CopyURL
 
 
 port sendSetPageQuery : String -> Cmd msg
+
+
+port sendSetClipboard : () -> Cmd msg
 
 
 port urlReceiver : (String -> msg) -> Sub msg
@@ -270,6 +274,9 @@ update msg model =
             in
             ( { model | shareQueryString = Just query }, Cmd.none )
 
+        CopyURL ->
+            ( model, sendSetClipboard () )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
@@ -334,6 +341,14 @@ dataRow class =
         ]
 
 
+gradePopupHeader : Html Msg
+gradePopupHeader =
+    span []
+        [ span [ class "close-button", onClick (ToggleGradePopup "" "") ] [ text "X" ]
+        , span [ class "share-button", onClick CopyURL ] [ text "Copy URL" ]
+        ]
+
+
 renderGradesModal : Model -> Html Msg
 renderGradesModal model =
     let
@@ -343,9 +358,9 @@ renderGradesModal model =
         currentClass =
             Maybe.withDefault placeholderClass model.selectedClass
     in
-    div [ id "modal", class "modal", onClick (ToggleGradePopup "" "") ]
+    div [ id "modal", class "modal" ]
         [ div [ class "modal-content" ]
-            [ span [ class "close-modal" ] [ text "X" ]
+            [ gradePopupHeader
             , h2 [] [ text ("UFSC - " ++ currentClass.classCourse) ]
             , h3 [] [ text (currentClass.courseCode ++ s ++ currentClass.courseName ++ s ++ model.selectedSemester) ]
             , div []
