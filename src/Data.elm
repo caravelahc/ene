@@ -38,7 +38,7 @@ defaultCourse : Course
 defaultCourse =
     { code = "208"
     , name = "CIÊNCIAS DA COMPUTAÇÃO"
-    , availableSemesters = semesterRangeList 2009 2020
+    , availableSemesters = List.drop 1 (semesterRangeList 2009 2021)
     }
 
 
