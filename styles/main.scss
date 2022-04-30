@@ -1,0 +1,169 @@
+$colorText: #020228;
+$colorPrimary: #003b6f;
+$colorPrimaryDark: darken($colorPrimary, 10%);
+$colorPrimaryText: #FFFFFF;
+$colorDisabled: #5F5F77;
+$colorBackground: #F0F0F0;
+
+$borderRadius: 3px;
+
+// Fontes do Google Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito:600|Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: $colorText;
+
+  #caravela-header {
+    position: sticky;
+    top: 0px;
+    margin-bottom: 1em;
+    background: $colorPrimary;
+
+    .wrapper {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      text-align: center;
+
+      #caravela-logo {
+        height: 4.3em;
+        margin-right: 2em;
+      }
+
+      #github-logo {
+        position: sticky;
+        margin-right: 2em;
+        margin-left: 1em;
+        top: 0px;
+        right: 0px;
+        height: 3em;
+      }
+
+      input, select {
+        text-transform: uppercase;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+
+        color: $colorDisabled;
+        background: $colorBackground;
+
+        border: 1px solid $colorPrimaryDark;
+        border-radius: $borderRadius;
+        padding: 0.5em 1em;
+        margin-right: 1em;
+
+        transition: all 0.2s ease;
+
+        &:hover, &:focus, &:active {
+          color: $colorPrimaryDark;
+          border-color: $colorPrimaryDark;
+          background: #FFFFFF;
+        }
+      }
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    width: calc(100% - 2em);
+    margin: 0em 1em;
+    cursor: pointer;
+
+    tr {
+      color: $colorDisabled;
+
+      // Limpa o espaçamento das table cells
+      td, th {
+        margin: 0px;
+        padding: 0.35em 0.5em;
+      }
+
+      // Centraliza as colunas de texto curto Centro (1), Departamento (2), Disciplina (4) e as numéricas (6, 7, 8, 9)
+      td:nth-of-type(1),
+      td:nth-of-type(2),
+      td:nth-of-type(4),
+      td:nth-of-type(6),
+      td:nth-of-type(7),
+      td:nth-of-type(8),
+      td:nth-of-type(9) {
+        text-align: center;
+      }
+
+      // Escurece a fonte quando existir hover
+      &:hover {
+        color: $colorText;
+        background: $colorBackground;
+      }
+    }
+
+    // Head
+    tr:first-child {
+      text-transform: uppercase;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+
+      color: $colorText;
+      background: $colorBackground;
+
+      th {
+        cursor: ns-resize;
+      }
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+
+  .modal-content {
+    background: #fefefe;
+    margin: 1vh auto;
+    width: 100%;
+    max-width: 100vh;
+
+    padding: 1em 2em;
+
+    border-radius: 0.35em;
+    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.35);
+  }
+
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 50px;
+  }
+
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .share-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .share-button:hover,
+  .share-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}

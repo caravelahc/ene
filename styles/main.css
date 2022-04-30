@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:600|Open+Sans&display=swap");
+body {
+  font-family: "Open Sans", sans-serif;
+  color: #020228;
+}
+body #caravela-header {
+  position: sticky;
+  top: 0px;
+  margin-bottom: 1em;
+  background: #003b6f;
+}
+body #caravela-header .wrapper {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+body #caravela-header .wrapper #caravela-logo {
+  height: 4.3em;
+  margin-right: 2em;
+}
+body #caravela-header .wrapper #github-logo {
+  position: sticky;
+  margin-right: 2em;
+  margin-left: 1em;
+  top: 0px;
+  right: 0px;
+  height: 3em;
+}
+body #caravela-header .wrapper input, body #caravela-header .wrapper select {
+  text-transform: uppercase;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  color: #5F5F77;
+  background: #F0F0F0;
+  border: 1px solid #00203c;
+  border-radius: 3px;
+  padding: 0.5em 1em;
+  margin-right: 1em;
+  transition: all 0.2s ease;
+}
+body #caravela-header .wrapper input:hover, body #caravela-header .wrapper input:focus, body #caravela-header .wrapper input:active, body #caravela-header .wrapper select:hover, body #caravela-header .wrapper select:focus, body #caravela-header .wrapper select:active {
+  color: #00203c;
+  border-color: #00203c;
+  background: #FFFFFF;
+}
+body table {
+  border-collapse: collapse;
+  width: calc(100% - 2em);
+  margin: 0em 1em;
+  cursor: pointer;
+}
+body table tr {
+  color: #5F5F77;
+}
+body table tr td, body table tr th {
+  margin: 0px;
+  padding: 0.35em 0.5em;
+}
+body table tr td:nth-of-type(1),
+body table tr td:nth-of-type(2),
+body table tr td:nth-of-type(4),
+body table tr td:nth-of-type(6),
+body table tr td:nth-of-type(7),
+body table tr td:nth-of-type(8),
+body table tr td:nth-of-type(9) {
+  text-align: center;
+}
+body table tr:hover {
+  color: #020228;
+  background: #F0F0F0;
+}
+body table tr:first-child {
+  text-transform: uppercase;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+  color: #020228;
+  background: #F0F0F0;
+}
+body table tr:first-child th {
+  cursor: ns-resize;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+.modal .modal-content {
+  background: #fefefe;
+  margin: 1vh auto;
+  width: 100%;
+  max-width: 100vh;
+  padding: 1em 2em;
+  border-radius: 0.35em;
+  box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.35);
+}
+.modal .close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 50px;
+}
+.modal .close-button:hover,
+.modal .close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.modal .share-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.modal .share-button:hover,
+.modal .share-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=main.css.map */
